@@ -14,7 +14,7 @@ Git Bash, unfortunately, doesn't play well with *CMD.exe's* internal commands li
 ####HelloWorld
 The obligatory *'hello world'* looks something like this:
 
-    ```C++
+```C++
     #include "Canvas.h"
 
     int main() {
@@ -23,7 +23,7 @@ The obligatory *'hello world'* looks something like this:
       canv.text(50, 50, "Hello world");
       return canv.loop();
     }
-    ```
+```
 
 and is built like so:
 
