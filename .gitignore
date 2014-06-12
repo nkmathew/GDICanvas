@@ -1,0 +1,11 @@
+*.o
+*.7z
+*.depend
+*.layout
+*.cbp
+*.exe
+tags
+html
+*.cppcheck
+*.out
+
