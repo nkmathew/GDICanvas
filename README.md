@@ -35,7 +35,7 @@ combination in case the executable turns out to be huge.
 _____
 
 #####Events
-Events are specified and bound the same way as in Tkinter, delimited by angled
+Events are specified and bound the same way as in Tkinter, delimited by angle
 brackets. An example:
 
 ```C++
