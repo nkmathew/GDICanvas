@@ -627,8 +627,8 @@ class Canvas {
     Canvas(int x, int y);
 
   private:
-    Canvas(const Canvas&);
-    Canvas& operator=(const Canvas&);
+    Canvas(const Canvas &);
+    Canvas &operator=(const Canvas &);
 
     //! Callback function needed to be invoked by the system
     static LRESULT CALLBACK windowProcedure(HWND winHandle,

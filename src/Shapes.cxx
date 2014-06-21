@@ -166,7 +166,7 @@ std::vector<std::string> Shape::tags() {
 }
 
 bool Shape::addTag(const std::string &newTag) {
-  for (const std::string & tag : tagList) {
+  for (const std::string &tag : tagList) {
     if (newTag == tag) {
       return false;
     }
@@ -205,7 +205,7 @@ std::string Shape::getPenColor() {
 }
 
 bool Shape::hasTag(std::string tagName) {
-  for (const std::string & tag : tagList) {
+  for (const std::string &tag : tagList) {
     if (tag == tagName) {
       return true;
     }
@@ -434,7 +434,7 @@ bool Poly::pointInShape(int x_, int y_) {
 
 bool Poly::shapeInRegion(const Vec::Vec2D &topLeft,
                          const Vec::Vec2D &bottomRight) {
-  for (const POINT & coord : polyCoords) {
+  for (const POINT &coord : polyCoords) {
     Vec::Vec2D vertex = coord;
     if (!pointInRegion(vertex.x, vertex.y, topLeft, bottomRight)) {
       return false;
@@ -446,7 +446,7 @@ bool Poly::shapeInRegion(const Vec::Vec2D &topLeft,
 bool Poly::overlapsWithRegion(const Vec::Vec2D &topLeft,
                               const Vec::Vec2D &bottomRight) {
   // At least one point has to be within that region.
-  for (const POINT & coord : polyCoords) {
+  for (const POINT &coord : polyCoords) {
     Vec::Vec2D vertex = coord;
     if (pointInRegion(vertex.x, vertex.y, topLeft, bottomRight)) {
       return true;
@@ -460,7 +460,7 @@ Vec::Vec2D Poly::closestPointTo(int x, int y) {
   POINT firstPoint = polyCoords[0];
   Vec::Vec2D closestPoint(firstPoint);
   float leastDistance = Vec::Vec2D(firstPoint).magnitude(x, y);
-  for (const POINT & coord : polyCoords) {
+  for (const POINT &coord : polyCoords) {
     float distance = closestPoint.magnitude(x, y);
     if (distance < leastDistance) {
       leastDistance = distance;
@@ -623,7 +623,7 @@ void Line::draw(HDC paintDC) {
   }
   POINT firstElem = lineCoords.front();
   MoveToEx(paintDC, firstElem.x, firstElem.y, NULL);
-  for (const POINT & point : lineCoords) {
+  for (const POINT &point : lineCoords) {
     LineTo(paintDC, point.x, point.y);
   }
 }

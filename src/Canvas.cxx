@@ -57,7 +57,7 @@ void Canvas::sleep(int millSecs) {
 }
 
 GS::ShapeType Canvas::shapeType(int id) {
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->shapeID == id) {
       return shape->type();
     }
@@ -153,7 +153,7 @@ bool Canvas::trackMouse() {
 
 bool Canvas::callHandlers(EventType type, int key) {
   bool called = false;
-  for (const Event & event : events[type]) {
+  for (const Event &event : events[type]) {
     // Keyboard event
     int id = event.shapeID;
     std::string tag = event.shapeTag;
@@ -173,7 +173,7 @@ bool Canvas::callHandlers(EventType type, int key) {
         continue;
       }
       // Mouse event
-      for (const auto & shape : shapeList) {
+      for (const auto &shape : shapeList) {
         int xPos = mouse.x();
         int yPos = mouse.y();
         if (((shape->shapeID == id)) ||
@@ -280,7 +280,7 @@ EventType Canvas::parseEventString(std::string eventString,
 }
 
 bool Canvas::isVisible(int shapeID) {
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->shapeID == shapeID) {
       return shape->isShown();
     }
@@ -290,7 +290,7 @@ bool Canvas::isVisible(int shapeID) {
 
 bool Canvas::hideShape(const std::string &tagName, bool visible) {
   bool foundAny = false;
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->hasTag(tagName)) {
       shape->visibility(visible);
       foundAny = true;
@@ -300,7 +300,7 @@ bool Canvas::hideShape(const std::string &tagName, bool visible) {
 }
 
 bool Canvas::hideShape(int shapeID, bool visible) {
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->shapeID == shapeID) {
       shape->visibility(visible);
       return true;
@@ -329,7 +329,7 @@ bool Canvas::moveShape(const std::string &shapeTag, int xAmount, int yAmount) {
 }
 
 bool Canvas::moveShape(int shapeID, int xAmount, int yAmount) {
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->shapeID == shapeID) {
       shape->move(xAmount, yAmount);
       return true;
@@ -366,7 +366,7 @@ POINT Canvas::windowSize() {
 
 std::vector<int> Canvas::findEnclosed(int x1, int y1, int x2, int y2) {
   std::vector<int> items;
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->shapeInRegion(Vec::Vec2D(x1, y1), Vec::Vec2D(x2, y2))) {
       items.push_back(shape->shapeID);
     }
@@ -376,7 +376,7 @@ std::vector<int> Canvas::findEnclosed(int x1, int y1, int x2, int y2) {
 
 std::vector<int> Canvas::findOverlapping(int x1, int y1, int x2, int y2) {
   std::vector<int> items;
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->overlapsWithRegion(Vec::Vec2D(x1, y1), Vec::Vec2D(x2, y2))) {
       items.push_back(shape->shapeID);
     }
@@ -390,7 +390,7 @@ std::vector<int> Canvas::findAll() {
 
 std::vector<int> Canvas::findWithTag(const std::string &tag) {
   std::vector<int> items;
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->hasTag(tag)) {
       items.push_back(shape->shapeID);
     }
@@ -399,7 +399,7 @@ std::vector<int> Canvas::findWithTag(const std::string &tag) {
 }
 
 std::vector<std::string> Canvas::getTags(int id) {
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->shapeID == id) {
       return shape->tags();
     }
@@ -409,7 +409,7 @@ std::vector<std::string> Canvas::getTags(int id) {
 
 std::vector<int> Canvas::findAbove(int id) {
   std::vector<int> items;
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->shapeID > id) {
       items.push_back(shape->shapeID);
     }
@@ -419,7 +419,7 @@ std::vector<int> Canvas::findAbove(int id) {
 
 std::vector<int> Canvas::findBelow(int id) {
   std::vector<int> items;
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->shapeID < id) {
       items.push_back(shape->shapeID);
     }
@@ -456,7 +456,7 @@ Canvas::Canvas(int x, int y) {
 }
 
 bool Canvas::coords(int shapeID, const std::vector<POINT> &newCoords) {
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->shapeID == shapeID) {
       shape->changeCoords(newCoords);
       return true;
@@ -466,7 +466,7 @@ bool Canvas::coords(int shapeID, const std::vector<POINT> &newCoords) {
 }
 
 std::vector<POINT> Canvas::coords(int id) {
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->shapeID == id) {
       return shape->coords();
     }
@@ -564,7 +564,7 @@ GS::Box Canvas::BBox(const std::vector<std::string> &tags) {
         smallestY = FLT_MAX;
   float largestX = -FLT_MAX,
         largestY = -FLT_MAX;
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     auto tagMatches = [&shape](const std::string & tag) {
       if (shape->hasTag(tag)) {
         return true;
@@ -589,7 +589,7 @@ GS::Box Canvas::BBox(const std::vector<int> &shapes) {
         smallestY = FLT_MAX;
   float largestX = -FLT_MAX,
         largestY = -FLT_MAX;
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     auto hasID = [&shape](int id) {
       if (shape->shapeID == id) {
         return true;
@@ -635,7 +635,7 @@ bool Canvas::killConsole() {
 
 int Canvas::addShape(GS::Shape *newShape) {
   std::shared_ptr<GS::Shape> newShape_(newShape);
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (GS::areEqual(shape, newShape_)) {
       return 0;
     }
@@ -647,7 +647,7 @@ int Canvas::addShape(GS::Shape *newShape) {
 // ~~~~~~~~~~~~~~~~~~~~~[ Tagging methods ]~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 bool Canvas::tagAbove(const std::string &tagName, int shapeID) {
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->shapeID > shapeID) {
       shape->addTag(tagName);
       return true;
@@ -658,7 +658,7 @@ bool Canvas::tagAbove(const std::string &tagName, int shapeID) {
 
 bool Canvas::tagBelow(const std::string &tagName, int shapeID) {
   bool foundAny = false;
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->shapeID < shapeID) {
       shape->addTag(tagName);
       foundAny = true;
@@ -681,7 +681,7 @@ bool Canvas::tagEnclosed(const std::string &tagName,
                          int x2,
                          int y2) {
   bool foundAny = false;
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     POINT topLeft = {x1, y1};
     POINT bottomRight = {x2, y2};
     if (shape->shapeInRegion(topLeft, bottomRight)) {
@@ -702,7 +702,7 @@ bool Canvas::tagOverlapping(const std::string &tagName,
                             int x2,
                             int y2) {
   bool foundAny = false;
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     POINT topLeft = {x1, y1};
     POINT bottomRight = {x2, y2};
     if (shape->overlapsWithRegion(topLeft, bottomRight)) {
@@ -715,7 +715,7 @@ bool Canvas::tagOverlapping(const std::string &tagName,
 
 bool Canvas::tagWithTag(const std::string &tagName, const std::string &newTag) {
   bool foundAny = true;
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->hasTag(tagName)) {
       shape->addTag(newTag);
       foundAny = true;
@@ -725,7 +725,7 @@ bool Canvas::tagWithTag(const std::string &tagName, const std::string &newTag) {
 }
 
 bool Canvas::tagWithTag(int shapeID, const std::string &newTag) {
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->shapeID == shapeID) {
       shape->addTag(newTag);
       return true;
@@ -738,7 +738,7 @@ bool Canvas::tagClosest(const std::string &newTag, int x, int y) {
   float leastDistance = 1.0e6; // Dummy value
   std::shared_ptr<GS::Shape> closestShape(nullptr);
   Vec::Vec2D closestPoint;
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     closestPoint = shape->closestPointTo(x, y);
     float distance = closestPoint.magnitude(x, y);
     if (distance < leastDistance) {
@@ -755,7 +755,7 @@ bool Canvas::tagClosest(const std::string &newTag, int x, int y) {
 
 bool Canvas::deleteTag(int shapeID, const std::string &tagToDelete) {
   bool foundAny = false;
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->shapeID == shapeID) {
       shape->removeTag(tagToDelete);
       foundAny = true;
@@ -768,7 +768,7 @@ bool Canvas::deleteTag(int shapeID, const std::string &tagToDelete) {
 
 bool Canvas::penSize(const std::string &tagName, int width) {
   bool foundAny = false;
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->hasTag(tagName)) {
       shape->penSize = width;
       foundAny = true;
@@ -778,7 +778,7 @@ bool Canvas::penSize(const std::string &tagName, int width) {
 }
 
 bool Canvas::penSize(int shapeID, int width) {
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->shapeID == shapeID) {
       shape->penSize = width;
       return true;
@@ -788,7 +788,7 @@ bool Canvas::penSize(int shapeID, int width) {
 }
 
 std::string Canvas::penColor(int shapeID) {
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->shapeID == shapeID) {
       return shape->getPenColor();
     }
@@ -803,7 +803,7 @@ bool Canvas::penColor(const std::string &tagName, int red, int green, int blue) 
 bool Canvas::penColor(const std::string &tagName, std::string colorString) {
   colorString = Colors::hexValue(colorString);
   bool foundAny = false;
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->hasTag(tagName)) {
       shape->setPenColor(colorString);
       foundAny = true;
@@ -818,7 +818,7 @@ bool Canvas::penColor(int shapeID, int red, int green, int blue) {
 
 bool Canvas::penColor(int shapeID, std::string colorString) {
   colorString = Colors::hexValue(colorString);
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->shapeID == shapeID) {
       shape->setPenColor(colorString);
       return true;
@@ -828,7 +828,7 @@ bool Canvas::penColor(int shapeID, std::string colorString) {
 }
 
 bool Canvas::borderStyle(int shapeID, GS::BorderStyle style) {
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->shapeID == shapeID) {
       shape->borderStyle(style);
       return true;
@@ -838,7 +838,7 @@ bool Canvas::borderStyle(int shapeID, GS::BorderStyle style) {
 }
 
 GS::BorderStyle Canvas::borderStyle(int shapeID) {
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->shapeID == shapeID) {
       return shape->borderStyle();
     }
@@ -848,7 +848,7 @@ GS::BorderStyle Canvas::borderStyle(int shapeID) {
 
 bool Canvas::borderStyle(std::string tag, GS::BorderStyle style) {
   bool foundAny = false;
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->hasTag(tag)) {
       foundAny = true;
       shape->borderStyle(style);
@@ -858,7 +858,7 @@ bool Canvas::borderStyle(std::string tag, GS::BorderStyle style) {
 }
 
 std::string Canvas::fillColor(int shapeID) {
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->shapeID == shapeID) {
       return shape->getFillColor();
     }
@@ -873,7 +873,7 @@ bool Canvas::fillColor(const std::string &tagName, int red, int green, int blue)
 bool Canvas::fillColor(const std::string &tagName, std::string colorString) {
   colorString = Colors::hexValue(colorString);
   bool foundAny = false;
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->hasTag(tagName)) {
       shape->setFillColor(colorString);
       foundAny = true;
@@ -888,7 +888,7 @@ bool Canvas::fillColor(int shapeID, int red, int green, int blue) {
 
 bool Canvas::fillColor(int shapeID, std::string colorString) {
   colorString = Colors::hexValue(colorString);
-  for (const auto & shape : shapeList) {
+  for (const auto &shape : shapeList) {
     if (shape->shapeID == shapeID) {
       shape->setFillColor(colorString);
       return true;
@@ -1116,7 +1116,7 @@ LRESULT CALLBACK Canvas::handleMessage(const HWND &winHandle,
     case WM_PAINT: {
       PAINTSTRUCT paintStruct;
       paintDC = BeginPaint(winHandle, &paintStruct);
-      for (const auto & shape : shapeList) {
+      for (const auto &shape : shapeList) {
         HPEN oldPen, newPen;
         HBRUSH oldBrush, newBrush;
         COLORREF penColor = Colors::hexToColorRef(shape->getPenColor());

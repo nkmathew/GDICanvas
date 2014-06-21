@@ -2,5 +2,5 @@
 
 astyle src/*.cxx
 astyle src/*.h
-astyle demo/*.cxx
+astyle examples/*.cxx
 
