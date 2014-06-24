@@ -97,7 +97,7 @@ bool withinLineSegment(float x, float y,
                        const Vec::Vec2D &start,
                        const Vec::Vec2D &end);
 
-//! Types of arcs handled by LineArc::draw
+//! Types of arcs that can be drawn
 enum ArcType {
   //! A pie
   PIE,
@@ -146,8 +146,7 @@ enum BorderStyle {
  * \class Shape
  * \brief A class to represent the items drawn on the canvas.
  */
-struct Shape {
-  private:
+class Shape {
     //! Determines whether the shape will be shown/drawn.
     bool isDrawn = true;
 
