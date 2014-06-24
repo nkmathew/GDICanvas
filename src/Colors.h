@@ -58,7 +58,7 @@ std::string hexValue(const std::string &colorName);
  *
  * \returns A struct `{red, green, blue}` representing the color
  * \param[in] colorString The hex digits representing the color.
- *            The string must be at least 1 character and at most 6.
+ *            The string must be at least 1 character long and at most 6.
  * \note
  *    A hex string with less than six characters will generate a color whose
  *    hex notation has the last character in the string repeated.
@@ -74,7 +74,7 @@ RGBValue hexToRGB(const std::string &colorString);
 
 /*!
  * \brief Checks if a color string has valid hexadecimal characters and tries to
- * fix acceptedly valid ones.
+ * fix acceptably valid ones.
  *
  * A hex string will less than six characters will have the last character
  * repeated till the hex digits become 6.
