@@ -5,7 +5,7 @@ struct Handler : GC::EventHandler {
   GC::Canvas *canv;
   Handler(GC::Canvas *canv) : canv(canv) {}
 
-  void handle(GC::Mouse mouse) {
+  virtual void handle(GC::Mouse mouse) override {
     int x = mouse.x();
     int y = mouse.y();
     if ((lastPosition.x == -100) && (lastPosition.y == -100)) {

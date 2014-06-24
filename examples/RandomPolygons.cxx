@@ -4,7 +4,7 @@ struct Handler : GC::EventHandler {
   GC::Canvas *canv = nullptr;
   int poly;
   Handler(GC::Canvas *canv, int poly) : canv(canv), poly(poly) {}
-  void handle(GC::Mouse) override {
+  virtual void handle(GC::Mouse) override {
     std::vector<int> nums(16);
     std::vector<POINT> points(8);
     std::generate(nums.begin(), nums.end(), std::rand);

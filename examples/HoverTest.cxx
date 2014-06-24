@@ -1,7 +1,7 @@
 #include <Canvas.h>
 
 struct Handler : GC::EventHandler {
-  void handle(GCanvas::Mouse mouse) {
+  virtual void handle(GCanvas::Mouse mouse) override {
     char text[30];
     snprintf(text, 30, "Pointer at (%i, %i)", mouse.x(), mouse.y());
     MessageBox(0, text, "Mouse", 32);
