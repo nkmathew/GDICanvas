@@ -65,12 +65,6 @@ GS::ShapeType Canvas::shapeType(int id) {
   return GS::INVALID_SHAPE;
 }
 
-bool Canvas::timer(int millSecs, EventHandler func) {
-  SetTimer(winHandle, 1, millSecs, NULL);
-  Event event(func, TIMER);
-  return addHandler(event, "<timer>");
-}
-
 bool Canvas::addHandler(Event event, const std::string &keyStr) {
   if (event.eventType == INVALID_EVENT) {
     return false;
@@ -87,14 +81,16 @@ bool Canvas::addHandler(Event event, const std::string &keyStr) {
 }
 
 bool Canvas::unbind(const std::string &eventString,
-                    EventHandler func,
                     int shapeID) {
   std::string keyStr("");
   EventType type = parseEventString(eventString, &keyStr);
   std::vector<Event>::iterator iter = events[type].begin();
   bool handlerExists = false;
   while (iter != events[type].end()) {
-    if ((iter->shapeID == shapeID) && (iter->handler == func)) {
+    if (events[type].size() == 0) {
+      break;
+    }
+    if (iter->shapeID == shapeID) {
       events[type].erase(iter++);
       handlerExists = true;
       continue;
@@ -105,14 +101,16 @@ bool Canvas::unbind(const std::string &eventString,
 }
 
 bool Canvas::unbind(const std::string &eventString,
-                    EventHandler func,
                     const std::string &tag) {
   std::string keyStr("");
   EventType type = parseEventString(eventString, &keyStr);
   std::vector<Event>::iterator iter = events[type].begin();
   bool handlerExists = false;
   while (iter != events[type].end()) {
-    if ((iter->shapeTag == tag) && (iter->handler == func)) {
+    if (events[type].size() == 0) {
+      break;
+    }
+    if (iter->shapeTag == tag) {
       events[type].erase(iter++);
       handlerExists = true;
       continue;
@@ -120,26 +118,6 @@ bool Canvas::unbind(const std::string &eventString,
     ++iter;
   }
   return handlerExists;
-}
-
-bool Canvas::bind(const std::string &eventString,
-                  EventHandler func,
-                  int shapeID) {
-  std::string keyStr("");
-  EventType type = parseEventString(eventString, &keyStr);
-  Event event(func, type);
-  event.shapeID = shapeID;
-  return addHandler(event, keyStr);
-}
-
-bool Canvas::bind(const std::string &eventString,
-                  EventHandler func,
-                  const std::string &tagName) {
-  std::string keyStr("");
-  EventType type = parseEventString(eventString, &keyStr);
-  Event event(func, type);
-  event.shapeTag = tagName;
-  return addHandler(event, keyStr);
 }
 
 bool Canvas::trackMouse() {
@@ -168,7 +146,7 @@ bool Canvas::callHandlers(EventType type, int key) {
       Mouse mouse(winHandle, key);
       if ((id == 0) && (tag == "")) {
         // An unbound mouse event handler.
-        event.handler(mouse);
+        event.handler->handle(mouse);
         called = true;
         continue;
       }
@@ -179,14 +157,14 @@ bool Canvas::callHandlers(EventType type, int key) {
         if (((shape->shapeID == id)) ||
             ((shape->hasTag(tag)))) {
           if (shape->pointInShape(xPos, yPos)) {
-            event.handler(mouse);
+            event.handler->handle(mouse);
             called = true;
           }
         }
       }
     } else if (event.keyToHandle == key) {
       Mouse mouse(winHandle);
-      event.handler(mouse);
+      event.handler->handle(mouse);
       called = true;
     }
   }

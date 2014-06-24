@@ -32,7 +32,7 @@ namespace GCanvas {
 
 /*!
  * \enum EventType
- * \brief Lists all events that can be bound to the canvas.
+ * \brief Lists all events handled in the canvas.
  *
  * The event strings will be parsed by in Canvas::parseEventString
  */
@@ -94,7 +94,18 @@ class Mouse {
     int y();
 };
 
-typedef void (*EventHandler)(Mouse mouse);
+/*!
+ * \interface EventHandler
+ *
+ * \brief The super class of which all event handlers must inherit from.
+ *
+ * It's basically used to implement the heterogeneous container of event handlers
+ */
+class EventHandler {
+  public:
+    virtual void handle(Mouse mouse) = 0;
+    virtual ~EventHandler() {}
+};
 
 /*!
  * \struct Event
@@ -102,27 +113,27 @@ typedef void (*EventHandler)(Mouse mouse);
  * \brief Contains the necessary information used to identify an event
  */
 struct Event {
-  //! Ascii code of the key that invokes this event.
+  //! ASCII code of the key that invokes this event.
   int keyToHandle = -999;
   // A shape id and tag are needed in mouse events. The mouse event handler will
   // be called only if the mouse position is within that shape.
   int shapeID = 0;
   std::string shapeTag = "";
-  EventHandler handler = nullptr;
+  std::shared_ptr<EventHandler> handler = std::shared_ptr<EventHandler>(nullptr);
   EventType eventType = INVALID_EVENT;
-  Event(EventHandler func, EventType type) {
-    handler = func;
+  Event(EventHandler *functor, EventType type) {
+    handler = std::shared_ptr<EventHandler>(functor);
     eventType = type;
   }
 };
 
-//! Checks if the shift key has been pressed
+//! Checks if any of the shift keys have been pressed
 bool shiftKeyDown();
 
-//! Checks if the control key has been pressed
+//! Checks if any of the control keys(CTRL) have been pressed
 bool ctrlKeyDown();
 
-//! Checks if the alternate key has been pressed
+//! Checks if any of the alternate keys(ALT) have been pressed
 bool altKeyDown();
 
 /*!
@@ -276,40 +287,68 @@ class Canvas {
      * within the window. E.g
      *
      * \code
-     *
-     *   void doTheRobot(Mouse) {
-     *     MessageGS::Box("Doing the robot...");
-     *   }
+     *   struct Robot : EventHandler {
+     *     void handler(Mouse) {
+     *       MessageGS::Box("Doing the robot...");
+     *     }
+     *   };
      *
      *   Canvas canv;
      *   int rect = canv.rectangle(10, 100, 400, 500);
      *   canv.fillColor("tan");
-     *   canv.bind("<hover>", doTheRobot, rect); // fired when above the rectangle
-     *   canv.bind("<hover>", doTheRobot); // fired when over the whole window
-     *
+     *   canv.bind("<hover>", Robot(), rect); // fired when above the rectangle
+     *   canv.bind("<hover>", Robot()); // fired when over the whole window
      * \endcode
      *
      */
-    bool bind(const std::string &event, EventHandler func, int shapeID);
+    template<typename FunctorType>
+    bool bind(const std::string &eventString,
+              FunctorType funcType,
+              int shapeID) {
+      std::string keyStr("");
+      EventType type = parseEventString(eventString, &keyStr);
+      FunctorType *func_ = new FunctorType(funcType);
+      Event event(func_, type);
+      event.shapeID = shapeID;
+      return addHandler(event, keyStr);
+    }
 
-    //! \overload bind(std::string, EventHandler, int)
-    bool bind(const std::string &event,
-              EventHandler func,
-              const std::string &tagName = "");
+    //! \overload bind(std::string, FunctorType, int)
+    template<typename FunctorType>
+    bool bind(const std::string &eventString,
+              FunctorType funcType,
+              const std::string &tagName = "") {
+      std::string keyStr("");
+      EventType type = parseEventString(eventString, &keyStr);
+      FunctorType *func_ = new FunctorType(funcType);
+      Event event(func_, type);
+      event.shapeTag = tagName;
+      return addHandler(event, keyStr);
+    }
 
     /*!
-     * \brief Unbind for all characters with TAGNAME for event SEQUENCE the
-     * function identified with FUNCID.
+     * \brief Removes all the event handlers associated with the specified object
+     *
+     * \code
+     *   GC::Canvas canv;
+     *   int id = canv.circle(400, 500, 50);
+     *   canv.bind("<Mouse-1>", id");
+     * \endcode
+     *
      */
-    bool unbind(const std::string &eventString, EventHandler func, int shapeID);
+    bool unbind(const std::string &eventString, int shapeID);
 
     //! \overload unbind(const std::string, EventHandler, int)
-    bool unbind(const std::string &eventString,
-                EventHandler func,
-                const std::string &tag);
+    bool unbind(const std::string &eventString, const std::string &tag = "");
 
     //! Add a timer event. The function will be called once.
-    bool timer(int millSecs, EventHandler func);
+    template<typename FunctorType>
+    bool timer(int millSecs, FunctorType func) {
+      SetTimer(winHandle, 1, millSecs, NULL);
+      FunctorType *func_ = new FunctorType(func);
+      Event event(func_, TIMER);
+      return addHandler(event, "<timer>");
+    }
 
     //! Returns the shape type of the shape with the specified id.
     GS::ShapeType shapeType(int id);
@@ -474,11 +513,11 @@ class Canvas {
      *
      *  The color can be specified in three ways(using the overloads):
      *  \code
-     *     Canvas canv;
-     *     int rect = canv.rectangle(12, 55, 100, 654); // Unfilled rectangle
-     *     canv.fillColor(rect, "yellow");
-     *     canv.fillColor("all", "#FFFF00");
-     *     canv.fillColor("all", 255, 252, 0);
+     *    Canvas canv;
+     *    int rect = canv.rectangle(12, 55, 100, 654); // Unfilled rectangle
+     *    canv.fillColor(rect, "yellow");
+     *    canv.fillColor("all", "#FFFF00");
+     *    canv.fillColor("all", 255, 252, 0);
      *  \endcode
      */
     bool fillColor(const std::string &tagName, std::string colorString);
@@ -550,8 +589,8 @@ class Canvas {
      *  library.
      *  The icon is added by linking with the object file:
      *  \code
-     *  windres icon.rc icon.o
-     *  g++ -o test.exe test.cxx icon.o
+     *    windres icon.rc icon.o
+     *    g++ -o test.exe test.cxx icon.o
      *  \endcode
      */
     bool icon(const char *iconPath);
@@ -590,11 +629,11 @@ class Canvas {
      * The method is usually placed last in the `main`/`WinMain` function
      *
      * \code
-     *    int main(){
-     *      Canvas canv;
-     *      canv.init();
-     *      return canv.loop();
-     *    }
+     *   int main(){
+     *     Canvas canv;
+     *     canv.init();
+     *     return canv.loop();
+     *   }
      * \endcode
      * \return An integer returned by the window message handler.
      */
