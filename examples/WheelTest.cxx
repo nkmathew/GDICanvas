@@ -2,18 +2,19 @@
 
 GC::Canvas canv;
 
-int rolls = 0;
-
-void hideColors(GC::Mouse mouse) {
-  rolls += mouse.delta();
-  rolls = (rolls < 0) ? 0 : rolls;
-  rolls = (rolls > 10) ? 10 : rolls;
-  if (mouse.delta() == -1) {
-    canv.showShape(rolls);
-  } else if (mouse.delta() == 1) {
-    canv.hideShape(rolls);
+struct Handler : GC::EventHandler {
+  int rolls = 0;
+  void handle(GC::Mouse mouse) override {
+    rolls += mouse.delta();
+    rolls = (rolls < 0) ? 0 : rolls;
+    rolls = (rolls > 10) ? 10 : rolls;
+    if (mouse.delta() == -1) {
+      canv.showShape(rolls);
+    } else if (mouse.delta() == 1) {
+      canv.hideShape(rolls);
+    }
   }
-}
+};
 
 int main() {
   canv.init();
@@ -32,8 +33,6 @@ int main() {
     canv.fillColor(id, red, green, blue);
     start.y += width;
   }
-  canv.bind("<wheel-roll>", hideColors);
+  canv.bind("<wheel-roll>", Handler());
   return canv.loop();
 }
-
-
