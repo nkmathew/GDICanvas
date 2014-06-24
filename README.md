@@ -15,14 +15,14 @@ Git Bash, unfortunately, doesn't play well with *CMD.exe's* internal commands li
 The obligatory *'hello world'* looks something like this:
 
 ```C++
-  #include "Canvas.h"
+#include "Canvas.h"
 
-  int main() {
-    GC::Canvas canv;
-    canv.init();
-    canv.text(50, 50, "Hello world");
-    return canv.loop();
-  }
+int main() {
+ GC::Canvas canv;
+ canv.init();
+ canv.text(50, 50, "Hello world");
+ return canv.loop();
+}
 ```
 
 and is built like so:
@@ -39,20 +39,24 @@ Events are specified and bound the same way as in Tkinter, delimited by angle
 brackets. An example:
 
 ```C++
-  #include "Canvas.h"
+#include <Canvas.h>
 
-  void complain(GCanvas::Mouse) {
-    MessageBox(0, "Stop staring!", "Boxy box box", 32);
-  }
+struct Handler : GC::EventHandler {
+ virtual void handle(GCanvas::Mouse mouse) override {
+   char text[30];
+   snprintf(text, 30, "Pointer at (%i, %i)", mouse.x(), mouse.y());
+   MessageBox(0, text, "Mouse", 32);
+ }
+};
 
-  int main() {
-    GC::Canvas canv;
-    canv.init();
-    int pie = canv.arc(100, 100, 500, 500, GS::PIE);
-    canv.fillColor(pie, "Turquoise");
-    canv.bind("<hover>", complain, pie);
-    return canv.loop();
-  }
+int main() {
+ GC::Canvas canv(450, 450, "Hover test");
+ canv.init();
+ int pie = canv.arc(10, 10, 400, 400, GS::PIE);
+ canv.fillColor(pie, "Turquoise");
+ canv.bind("<hover>", Handler(), "all");
+ return canv.loop();
+}
 
 ```
 
