@@ -6,7 +6,7 @@
 
 using namespace GShape;
 
-int Shape::counterID = 1;
+int Shape::counterID = 0;
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~[ Free functions ]~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

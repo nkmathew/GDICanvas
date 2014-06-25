@@ -144,7 +144,7 @@ bool Canvas::callHandlers(EventType type, int key) {
         (type == WHEEL_ROLL) ||
         (type == WHEEL_CLICK)) {
       Mouse mouse(winHandle, key);
-      if ((id == 0) && (tag == "")) {
+      if ((id == -1) && (tag == "")) {
         // An unbound mouse event handler.
         event.handler->handle(mouse);
         called = true;

@@ -117,7 +117,7 @@ struct Event {
   int keyToHandle = -999;
   // A shape id and tag are needed in mouse events. The mouse event handler will
   // be called only if the mouse position is within that shape.
-  int shapeID = 0;
+  int shapeID = -1;
   std::string shapeTag = "";
   std::shared_ptr<EventHandler> handler = std::shared_ptr<EventHandler>(nullptr);
   EventType eventType = INVALID_EVENT;
