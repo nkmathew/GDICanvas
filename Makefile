@@ -23,10 +23,10 @@ endif
 test:$(TEST).exe $(LIBRARY)
 	$(TEST).exe
 
-$(TEST).exe:lib $(TEST).cxx
+$(TEST).exe:$(LIBRARY) $(TEST).cxx
 	$(CC) -I$(INCLUDE_DIR) $(TEST).cxx -lGDICanvas $(CXX_FLAGS) -L$(LIB_DIR) -o $(TEST).exe
 
-all:lib $(DEMOS) $(debug) $(TEST).exe
+all:lib $(DEMOS) $(TEST).exe
 
 lib:$(OBJECTS) $(INCLUDES) $(LIBRARY)
 
