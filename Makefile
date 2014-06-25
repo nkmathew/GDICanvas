@@ -15,9 +15,9 @@ OBJECTS     = $(LIB_DIR)/$(DEMO_RC).o
 OBJECTS    += $(patsubst $(SRC_DIR)/%.cxx, $(LIB_DIR)/%.o, $(wildcard $(SRC_DIR)/*.cxx))
 
 ifdef DEBUG
-CXX_FLAGS += -g -pg
+CXX_FLAGS += -g -pg -DDEBUG
 else
-CXX_FLAGS += -s -O
+CXX_FLAGS += -s -O -DNDEBUG
 endif
 
 test:$(TEST).exe
