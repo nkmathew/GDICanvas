@@ -20,10 +20,10 @@ else
 CXX_FLAGS += -s -O
 endif
 
-test:$(TEST).exe $(LIBRARY)
+test:$(TEST).exe
 	$(TEST).exe
 
-$(TEST).exe:$(LIBRARY) $(TEST).cxx
+$(TEST).exe:$(LIBRARY) $(INCLUDES) $(TEST).cxx
 	$(CC) -I$(INCLUDE_DIR) $(TEST).cxx -lGDICanvas $(CXX_FLAGS) -L$(LIB_DIR) -o $(TEST).exe
 
 all:lib $(DEMOS) $(TEST).exe
