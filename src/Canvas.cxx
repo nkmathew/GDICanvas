@@ -1001,13 +1001,7 @@ int Canvas::polygon(const std::vector<POINT> &polyCoords) {
 }
 
 int Canvas::init(HINSTANCE hInstance, int cmdShow_) {
-  static bool isInitialized = false;
   // The resource object file must be linked with the program for the icon to show.
-  if (isInitialized) {
-    // Prevents any attempts to create the window twice cause it'll always fail.
-    // return 1;
-  }
-  isInitialized = true;
   windowClassEx.cbSize        = sizeof(WNDCLASSEX);
   windowClassEx.cbWndExtra    = sizeof(Canvas);
   windowClassEx.style         = classStyle;
