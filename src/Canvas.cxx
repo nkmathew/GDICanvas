@@ -151,7 +151,8 @@ bool Canvas::callHandlers(EventType type, int key) {
         continue;
       }
       // Mouse event
-      for (const auto &shape : shapeList) {
+      auto shapeList_ = shapeList;
+      for (const auto &shape : shapeList_) {
         int xPos = mouse.x();
         int yPos = mouse.y();
         if (((shape->shapeID == id)) ||
