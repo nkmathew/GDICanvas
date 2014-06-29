@@ -1050,7 +1050,7 @@ int Canvas::arc(int x1,
 }
 
 int Canvas::line(const std::vector<POINT> &lineCoords) {
-  GS::Poly *ligne(new GS::Poly(lineCoords));
+  GS::Line *ligne(new GS::Line(lineCoords));
   return addShape(ligne);
 }
 
