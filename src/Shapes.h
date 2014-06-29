@@ -421,6 +421,7 @@ struct Poly : Shape {
 
   virtual void changeCoords(const std::vector<POINT> &coords) override;
   Poly(const std::vector<POINT> &points) : Shape(POLYGON) {
+    addTag("polygon");
     polyCoords = points;
   }
 };
@@ -439,6 +440,7 @@ struct Rect : Shape {
                                   const Vec::Vec2D &bottomRight) override;
 
   Rect(int x1, int y1, int x2, int y2) : Shape(RECTANGLE) {
+    addTag("rectangle");
     topLeft = {x1, y1};
     bottomRight = {x2, y2};
   }
@@ -495,6 +497,7 @@ struct Text : Shape {
                                   const Vec::Vec2D &bottomRight) override;
 
   Text(int x, int y, const std::string &text_, int width_) : Shape(TEXT) {
+    addTag("text");
     width = (width_ < 0) ? 0 : width_;
     text = text_;
     start = {x, y};
@@ -515,6 +518,7 @@ struct Oval : Shape {
                                   const Vec::Vec2D &bottomRight) override;
 
   Oval(int x1, int y1, int x2, int y2) : Shape(OVAL) {
+    addTag("oval");
     topLeft = {x1, y1};
     bottomRight = {x2, y2};
   }
@@ -542,6 +546,7 @@ struct Circle : Oval {
   void changeCoords(const std::vector<POINT> &coords);
   void updateBBoxCoords();
   Circle(int x, int y, int rad) : Oval(x - rad, y - rad, x + rad, y + rad) {
+    addTag("circle");
     center = {x, y};
     radius = rad;
   }
@@ -574,6 +579,7 @@ struct Line : Shape {
 
   virtual void changeCoords(const std::vector<POINT> &coords) override;
   Line(const std::vector<POINT> &points) : Shape(LINE) {
+    addTag("line");
     lineCoords = points;
   }
 };
@@ -685,6 +691,7 @@ struct LineArc : Shape {
           ArcType arcType_ = CHORD,
           float pieSize_ = 60.0f,
           float tiltAngle_ = 0.0f) : Shape(LINE_ARC) {
+    addTag("arc");
     arcType = arcType_;
     pieSize = pieSize_;
     tiltAngle = tiltAngle_;
