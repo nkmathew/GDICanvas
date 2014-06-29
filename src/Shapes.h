@@ -200,11 +200,20 @@ class Shape {
     //! Pen style
     BorderStyle border = SOLID;
 
+    //! The string to be displayed in text objects/shapes
+    std::string text = "";
+
   public:
     ShapeType shapeType = INVALID_SHAPE;
 
     //! Changes the shape's font attributes
     void setFontAttr(const FontAttr &fontProp);
+
+    //! Returns the shape's text
+    std::string getText();
+
+    //! Changes the shape's text
+    void setText(const std::string &text_);
 
     //! Returns the shape's font attributes
     FontAttr getFontAttr();
@@ -452,7 +461,6 @@ struct Rect : Shape {
  */
 struct Text : Shape {
   Vec::Vec2D start;
-  std::string text = "";
   int width = 0;
 
   /*!
@@ -499,7 +507,7 @@ struct Text : Shape {
   Text(int x, int y, const std::string &text_, int width_) : Shape(TEXT) {
     addTag("text");
     width = (width_ < 0) ? 0 : width_;
-    text = text_;
+    setText(text_);
     start = {x, y};
   }
 };

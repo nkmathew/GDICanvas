@@ -391,6 +391,14 @@ FontAttr Shape::getFontAttr() {
   return fontProp;
 }
 
+std::string Shape::getText() {
+  return text;
+}
+
+void Shape::setText(const std::string &text_) {
+  text = text_;
+}
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~[ Polygon ]~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 void Poly::changeCoords(const std::vector<POINT> &coords) {
@@ -541,7 +549,8 @@ void Text::createFont(HFONT *font) {
 
 POINT Text::textArea(HDC paintDC) {
   SIZE size;
-  GetTextExtentPoint32(paintDC, text.c_str(), text.length(), &size);
+  std::string text_ = getText();
+  GetTextExtentPoint32(paintDC, text_.c_str(), text_.length(), &size);
   return {size.cx, size.cy};
 }
 
@@ -574,8 +583,9 @@ void Text::draw(HDC paintDC) {
   } else {
     SetBkMode(paintDC, TRANSPARENT);
   }
+  std::string text_ = getText();
   int format =  DT_NOCLIP | DT_SINGLELINE | DT_WORD_ELLIPSIS;
-  DrawText(paintDC, text.c_str(), -1, &textRegion, format);
+  DrawText(paintDC, text_.c_str(), -1, &textRegion, format);
   DeleteObject(font);
 }
 

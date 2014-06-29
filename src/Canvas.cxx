@@ -806,6 +806,31 @@ bool Canvas::penColor(int shapeID, std::string colorString) {
   return false;
 }
 
+std::string Canvas::getText(int shapeID) {
+  for (const auto &shape : shapeList) {
+    if (shape->shapeID == shapeID) {
+      return shape->getText();
+    }
+  }
+  return "";
+}
+
+void Canvas::setText(const std::string &tagName, const std::string &text) {
+  for (const auto &shape : shapeList) {
+    if (shape->hasTag(tagName)) {
+      shape->setText(text);
+    }
+  }
+}
+
+void Canvas::setText(int shapeID, const std::string &text) {
+  for (const auto &shape : shapeList) {
+    if (shape->shapeID == shapeID) {
+      shape->setText(text);
+    }
+  }
+}
+
 GS::FontAttr parseFont(std::string fontSpec) {
   GS::FontAttr prop;
   fontSpec = " " + fontSpec + " ";

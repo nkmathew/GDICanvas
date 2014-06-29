@@ -448,6 +448,15 @@ class Canvas {
     //! \overload text(int, int, const std::string&, int)
     int text(POINT point, const std::string &txtStr, int width = 0);
 
+    //! Returns the shape's text
+    std::string getText(int shapeID);
+
+    //! Changes the shape's text
+    void setText(const std::string &tagName, const std::string &text);
+
+    //! \overload setText(int, const std::string&)
+    void setText(int shapeID, const std::string &text);
+
     /*!
      * \brief Draws a polygon on the screen.
      */
