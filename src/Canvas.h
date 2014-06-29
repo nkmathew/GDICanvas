@@ -445,6 +445,9 @@ class Canvas {
      */
     int text(int x, int y, const std::string &txtStr, int width = 0);
 
+    //! \overload text(int, int, const std::string&, int)
+    int text(POINT point, const std::string &txtStr, int width = 0);
+
     /*!
      * \brief Draws a polygon on the screen.
      */

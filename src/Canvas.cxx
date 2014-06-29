@@ -1015,6 +1015,10 @@ int Canvas::circle(int x, int y, int radius) {
   return addShape(ellipse);
 }
 
+int Canvas::text(POINT point, const std::string &txtStr, int width) {
+  return text(point.x, point.y, txtStr, width);
+}
+
 int Canvas::text(int x, int y, const std::string &txtStr, int width) {
   GS::Text *txt(new GS::Text(x, y, txtStr, width));
   return addShape(txt);
