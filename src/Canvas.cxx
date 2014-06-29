@@ -840,6 +840,7 @@ GS::FontAttr parseFont(std::string fontSpec) {
   }
   prop.underline = fontSpec.find(" underline ") != std::string::npos;
   prop.strikeout = fontSpec.find(" strikeout ") != std::string::npos;
+  prop.italic = fontSpec.find(" italic ") != std::string::npos;
   return prop;
 }
 
