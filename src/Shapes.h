@@ -6,6 +6,8 @@
 #ifndef Shapes_H_
 #define Shapes_H_
 
+#define _WIN32_WINNT 0x501
+
 #include <windows.h>
 #include <cstdio>
 #include <algorithm>
@@ -16,6 +18,8 @@
 #include <vector>
 #include <memory>
 #include "./Vec2D.h"
+#include "./Colors.h"
+#include <wingdi.h>
 
 namespace Vec = Vector;
 
@@ -142,11 +146,42 @@ enum BorderStyle {
   INVALID_BORDER,
 };
 
+
+/*!
+ * \struct FontAttr
+ * \brief Holds the shape's font attributes
+ */
+struct FontAttr {
+  //! Font family
+  std::string family = "Consolas";
+  //! Font size
+  int size = 12;
+  //! Bold style. Only one bold style is used. WinAPI's got lots of them
+  int bold = FW_NORMAL;
+  //! Underlines the text
+  bool underline = false;
+  //! Draws a line across the text
+  bool strikeout = false;
+  //! Slants the text
+  bool italic = false;
+  //! Returns the values of all the attributes in a string
+  std::string repr() {
+    char text[100];
+    snprintf(text, 100,
+             "family: `%s', size: %d, bold: %d, underline: %d, strikeout: %d, italic: %d",
+             family.c_str(), size, bold, underline, strikeout, italic);
+    return text;
+  }
+};
+
 /*!
  * \class Shape
  * \brief A class to represent the items drawn on the canvas.
  */
 class Shape {
+    //! The shape's font attributes
+    FontAttr fontProp;
+
     //! Determines whether the shape will be shown/drawn.
     bool isDrawn = true;
 
@@ -167,6 +202,12 @@ class Shape {
 
   public:
     ShapeType shapeType = INVALID_SHAPE;
+
+    //! Changes the shape's font attributes
+    void setFontAttr(const FontAttr &fontProp);
+
+    //! Returns the shape's font attributes
+    FontAttr getFontAttr();
 
     //! Returns the border style
     BorderStyle borderStyle();
@@ -193,10 +234,10 @@ class Shape {
     void visibility(bool visible);
 
     //! Top left corner of the bounding box.
-    Vec::Vec2D topLeft;
+    Vec::Vec2D topLeft = {0, 0};
 
     //! Bottom right corner of the bounding box.
-    Vec::Vec2D bottomRight;
+    Vec::Vec2D bottomRight = {0, 0};
 
     //! Controls the shape's border
     int penSize = 0;
@@ -408,19 +449,55 @@ struct Rect : Shape {
  * \brief Represents Text drawn on the screen.
  */
 struct Text : Shape {
-  Vec::Vec2D center;
+  Vec::Vec2D start;
   std::string text = "";
+  int width = 0;
+
+  /*!
+   * \note The values returned by this function will not always be accurate.
+   * The functions used to query the string size depend on a DC(device context)
+   * which is only sent to the draw method. Using GetDC(NULL) doesn't seem to work.
+   *
+   * The only time when it'll be correct is when the query is made in a handler,
+   * i.e after the Canvas starts translating messages.
+   *
+   * Don't expect something like this to be accurate:
+   *
+   *  \code
+   *    int main() {
+   *      Canvas canv;
+   *      canv.init()
+   *      int text = canv.text(100, 300, "Hello world");
+   *      canv.rectangle(canv.BBox(text)); // The bounding box will be smaller
+   *      return canv.loop();
+   *    }
+   *  \endcode
+   */
   virtual Vec::Vec2D bottomRightCoord() const override;
+
   virtual Vec::Vec2D topLeftCoord() const override;
   virtual bool pointInShape(int x, int y) override;
+
+  //! Returns the size of the text area
+  POINT textArea(HDC paintDC);
+  void createFont(HFONT *font);
+
+  /*!
+   * \brief Draws the text on the screen.
+   *
+   * It doesn't support wrapping because it's quite difficult to determine the
+   * extent of the text when the font and the different styles are factored in.
+   *
+   */
   virtual void draw(HDC paintDC) override;
 
   virtual bool overlapsWithRegion(const Vec::Vec2D &topLeft,
                                   const Vec::Vec2D &bottomRight) override;
 
-  Text(int x, int y, const std::string &text_) : Shape(TEXT) {
-    center = {x, y};
+  Text(int x, int y, const std::string &text_, int width_) : Shape(TEXT) {
+    width = (width_ < 0) ? 0 : width_;
     text = text_;
+    start = {x, y};
   }
 };
 

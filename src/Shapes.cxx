@@ -383,6 +383,14 @@ void Shape::visibility(bool visible) {
   isDrawn = visible;
 }
 
+void Shape::setFontAttr(const FontAttr &fontProp_) {
+  fontProp = fontProp_;
+}
+
+FontAttr Shape::getFontAttr() {
+  return fontProp;
+}
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~[ Polygon ]~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 void Poly::changeCoords(const std::vector<POINT> &coords) {
@@ -520,25 +528,67 @@ bool Rect::overlapsWithRegion(const Vec::Vec2D &topLeft_,
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~[ Text ]~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+void Text::createFont(HFONT *font) {
+  FontAttr fontProp = getFontAttr();
+  HDC hDC = GetDC(NULL);
+  LONG fontHeight = -MulDiv(fontProp.size, GetDeviceCaps(hDC, LOGPIXELSY), 72);
+  ReleaseDC(NULL, hDC);
+  *font = CreateFont(fontHeight, 0, 0, 0, fontProp.bold, fontProp.italic,
+                     fontProp.underline, fontProp.strikeout, DEFAULT_CHARSET,
+                     OUT_OUTLINE_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY,
+                     VARIABLE_PITCH, fontProp.family.c_str());
+}
+
+POINT Text::textArea(HDC paintDC) {
+  SIZE size;
+  GetTextExtentPoint32(paintDC, text.c_str(), text.length(), &size);
+  return {size.cx, size.cy};
+}
+
 void Text::draw(HDC paintDC) {
   if (!isShown()) {
     return;
   }
-  TextOut(paintDC, center.x, center.y, text.c_str(), text.length());
+  HFONT font;
+  createFont(&font);
+  SelectObject(paintDC, font);
+  POINT dim = textArea(paintDC);
+  int x1 = static_cast<int>(start.x);
+  int y1 = static_cast<int>(start.y);
+  int x2 = x1 + dim.x;
+  int y2 = y1 + dim.y;
+  if (width != 0) {
+    x2 = x1 + width;
+  }
+
+  // Update the bounding box's coordinates with the correct values according to
+  // the current font.
+  topLeft = {x1, y1};
+  bottomRight = {x2, y2};
+
+  RECT textRegion = {x1, y1, x2, y2};
+  SetTextColor(paintDC, Colors::hexToColorRef(getPenColor()));
+  std::string fillColor_ = getFillColor();
+  if (fillColor_ != "") {
+    SetBkColor(paintDC, Colors::hexToColorRef(fillColor_));
+  } else {
+    SetBkMode(paintDC, TRANSPARENT);
+  }
+  int format =  DT_NOCLIP | DT_SINGLELINE | DT_WORD_ELLIPSIS;
+  DrawText(paintDC, text.c_str(), -1, &textRegion, format);
+  DeleteObject(font);
 }
 
 Vec::Vec2D Text::topLeftCoord() const {
-  return center;
+  return topLeft;
 }
 
 Vec::Vec2D Text::bottomRightCoord() const {
-  return center;
+  return bottomRight;
 }
 
 bool Text::pointInShape(int x, int y) {
-  // FIXME: Found out more info about font sizes and the space consumed.
-  // The bounding box for a text object varies according to font and size.
-  return false;
+  return pointInRegion(x, y, topLeft, bottomRight);
 }
 
 bool Text::overlapsWithRegion(const Vec::Vec2D &topLeft_,

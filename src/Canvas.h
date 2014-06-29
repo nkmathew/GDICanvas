@@ -435,8 +435,15 @@ class Canvas {
     //! \overload circle(int, int, int)
     int circle(POINT point, int radius);
 
-    //! Writes text on the screen
-    int text(int x, int y, const std::string &text);
+    /*!
+     * \brief Draws text on the screen
+     *
+     * Specifying the width will cause the text to be truncated in case it doesn't
+     * fit within the specified region.
+     *
+     * \note It won't wrap the text
+     */
+    int text(int x, int y, const std::string &txtStr, int width = 0);
 
     /*!
      * \brief Draws a polygon on the screen.
@@ -552,14 +559,36 @@ class Canvas {
     GS::BorderStyle borderStyle(int shapeID);
 
     //! Set border style
-    bool borderStyle(std::string tag, GS::BorderStyle style);
+    bool borderStyle(const std::string &tag, GS::BorderStyle style);
+
+    //! \overload borderStyle(const std::string&, GS:BorderStyle)
+    bool borderStyle(int id, GS::BorderStyle style);
+
+    /*!
+     * \brief Changes the shape's font attributes
+     * \return **true** if any shape with the id was found
+     *
+     * \code
+     *   canv.setFont(id, "strikeout underline bold", 15, "Fixedsys");
+     * \endcode
+     */
+    bool setFont(int shapeID,
+                 const std::string &fontStyle,
+                 int size = 12,
+                 const std::string &fontFamily = "");
+
+    //! \overload setFont(int, const std::string&, const std::string&, int)
+    bool setFont(const std::string &tag,
+                 const std::string &fontStyle,
+                 int size = 12,
+                 const std::string &fontFamily = "");
+
+    //! Returns the shape's font attributes
+    GS::FontAttr getFont(int shapeID);
 
     //! Returns the width and height of the screen, `{width, height}`
     //! You must call it after the screen has been registered.
     POINT screenSize();
-
-    //! \overload borderStyle(std::string, GS:BorderStyle)
-    bool borderStyle(int id, GS::BorderStyle style);
 
     //! Brings up a console window enabling trace logging with IO functions
     //! It reopens `stderr` and `stdout`

@@ -499,19 +499,18 @@ std::string Canvas::icon() {
   return iconFile;
 }
 
+void swap(int *a, int *b) {
+  int temp = *a;
+  *a = *b;
+  *b = temp;
+}
+
 void Canvas::fixBBoxCoord(int *x1, int *y1, int *x2, int *y2) {
-  int temp = *y1;
-  if ((*x2 > *x1) && (*y1 > *y2)) {
-    temp = *y1;
-    *y1 = *y2;
-    *y2 = temp;
-  } else if ((*x2 < *x1) && (*y2 > *y1)) {
-    temp = *x1;
-    *x1 = *x2;
-    *x2 = temp;
-    temp = *y1;
-    *y1 = *y2;
-    *y2 = temp;
+  if (*x1 > *x2) {
+    swap(x1, x2);
+  }
+  if (*y1 > *y2) {
+    swap(y1, y2);
   }
 }
 
@@ -806,6 +805,60 @@ bool Canvas::penColor(int shapeID, std::string colorString) {
   return false;
 }
 
+GS::FontAttr parseFont(std::string fontSpec) {
+  GS::FontAttr prop;
+  fontSpec = " " + fontSpec + " ";
+  int bold = fontSpec.find(" bold ") != std::string::npos;
+  if (bold) {
+    prop.bold = FW_BOLD;
+  }
+  prop.underline = fontSpec.find(" underline ") != std::string::npos;
+  prop.strikeout = fontSpec.find(" strikeout ") != std::string::npos;
+  return prop;
+}
+
+bool Canvas::setFont(int shapeID,
+                     const std::string &fontStyle,
+                     int size,
+                     const std::string &fontFamily) {
+  for (const auto &shape : shapeList) {
+    if (shape->shapeID == shapeID) {
+      GS::FontAttr prop = parseFont(fontStyle);
+      prop.family = fontFamily;
+      prop.size = size;
+      shape->setFontAttr(prop);
+      return true;
+    }
+  }
+  return false;
+}
+
+bool Canvas::setFont(const std::string &tag,
+                     const std::string &fontStyle,
+                     int size,
+                     const std::string &fontFamily) {
+  bool foundAny = false;
+  for (const auto &shape : shapeList) {
+    if (shape->hasTag(tag)) {
+      GS::FontAttr prop = parseFont(fontStyle);
+      prop.family = fontFamily;
+      prop.size = size;
+      shape->setFontAttr(prop);
+      foundAny = true;
+    }
+  }
+  return foundAny;
+}
+
+GS::FontAttr Canvas::getFont(int shapeID) {
+  for (const auto &shape : shapeList) {
+    if (shape->shapeID == shapeID) {
+      shape->getFontAttr();
+    }
+  }
+  return GS::FontAttr();
+}
+
 bool Canvas::borderStyle(int shapeID, GS::BorderStyle style) {
   for (const auto &shape : shapeList) {
     if (shape->shapeID == shapeID) {
@@ -825,7 +878,7 @@ GS::BorderStyle Canvas::borderStyle(int shapeID) {
   return GS::INVALID_BORDER;
 }
 
-bool Canvas::borderStyle(std::string tag, GS::BorderStyle style) {
+bool Canvas::borderStyle(const std::string &tag, GS::BorderStyle style) {
   bool foundAny = false;
   for (const auto &shape : shapeList) {
     if (shape->hasTag(tag)) {
@@ -961,8 +1014,8 @@ int Canvas::circle(int x, int y, int radius) {
   return addShape(ellipse);
 }
 
-int Canvas::text(int x, int y, const std::string &text_) {
-  GS::Text *txt(new GS::Text(x, y, text_));
+int Canvas::text(int x, int y, const std::string &txtStr, int width) {
+  GS::Text *txt(new GS::Text(x, y, txtStr, width));
   return addShape(txt);
 }
 
@@ -986,7 +1039,8 @@ int Canvas::arc(int x1,
   while (tiltAngle > 360.0f) {
     tiltAngle -= 360.0f;
   }
-  GS::LineArc *lineArc(new GS::LineArc(x1, y1, x2, y2, arcType, pieSize, tiltAngle));
+  GS::LineArc *lineArc(
+    new GS::LineArc(x1, y1, x2, y2, arcType, pieSize, tiltAngle));
   return addShape(lineArc);
 }
 
