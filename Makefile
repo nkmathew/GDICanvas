@@ -39,7 +39,7 @@ $(LIB_DIR)/$(DEMO_RC).o:$(SRC_DIR)/$(DEMO_RC).rc $(SRC_DIR)/$(DEMO_RC).h
 	windres $(SRC_DIR)/$(DEMO_RC).rc $(LIB_DIR)/$(DEMO_RC).o
 
 ## Demos
-$(DEMO_DIR)/%.exe:$(DEMO_DIR)/%.cxx $(LIB_DIR)/$(DEMO_RC).o $(LIBRARY)
+$(DEMO_DIR)/%.exe:$(DEMO_DIR)/%.cxx $(LIB_DIR)/$(DEMO_RC).o $(LIBRARY) $(INCLUDES)
 	$(CC) -I$(INCLUDE_DIR) $< -lGDICanvas $(CXX_FLAGS) $(LIB_DIR)/$(DEMO_RC).o -L$(LIB_DIR) -o $@
 
 ## Vec2D.o
