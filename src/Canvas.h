@@ -739,7 +739,10 @@ class Canvas {
     // Makes the program listen for mouse move messages. Needed for <hover> event
     bool trackMouse();
 
-    //! Adds the shape to the list. It filters duplicate shapes.
+    /*!
+     * \brief Adds the shape to the list.
+     * \returns -1 if the shape already exists. Otherwise a value greater than -1.
+     */
     int addShape(GS::Shape *newShape);
 
     int cmdShow = SW_SHOWNORMAL;

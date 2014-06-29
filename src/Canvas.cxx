@@ -614,8 +614,9 @@ bool Canvas::killConsole() {
 int Canvas::addShape(GS::Shape *newShape) {
   std::shared_ptr<GS::Shape> newShape_(newShape);
   for (const auto &shape : shapeList) {
-    if (GS::areEqual(shape, newShape_)) {
-      return 0;
+    if (GS::areEqual(shape, newShape_) &&
+        (shape->shapeType != GS::TEXT)) {
+      return -1;
     }
   }
   shapeList.push_back(newShape_);
