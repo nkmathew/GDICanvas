@@ -7,12 +7,6 @@ int winningCombos[8][3] = {
   {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}
 };
 
-struct Board {
-  int width = 100,
-      height = 100;
-  Board(int width_, int height_) : width(width_), height(height_) {}
-};
-
 // Provides the logic
 struct TicTacToe {
   bool gameWon = false;
@@ -24,6 +18,11 @@ struct TicTacToe {
   }
 
   TicTacToe() {
+  }
+
+  // XXX: It's used to achieve the same effect as disabling a button in Tkinter
+  bool squareEmpty(int square) {
+    return board[square] == ' ';
   }
 
   std::string repr() {
@@ -104,8 +103,8 @@ struct TicTacToe {
     return -1;
   }
 
-  // Checks if any of the sides has 3 adjacent squares
-  bool foundWinner(int pos, char side) {
+  // Makes the move to that square and returns true if there's a winner
+  bool moveTo(int pos, char side) {
     board[pos] = side;
     for (int *winner : winningCombos) {
       int w1 = winner[0],
@@ -142,7 +141,6 @@ struct TicTacToe {
 struct Player {
   char side;
   char opponent;
-  // A new game will start with these positions in order
   std::vector<int> positions = {8, 0, 2, 6, 4, 1, 3, 5, 7};
   Player(char side_) {
     side = side_;
@@ -235,13 +233,13 @@ struct GUI {
         start = origin;
       }
     }
-    int x2 = start_.x + 80;
+    int x2 = start_.x + 90;
     int y2 = start_.y + 40;
     startButton = canv->rectangle(start_.x, start_.y, x2, y2);
-    canv->fillColor(startButton, "khaki");
+    canv->fillColor(startButton, "grey");
     canv->bind("<Mouse-1>", StartButton(this), startButton);
     buttonLabel = canv->text(start_.x + 15, start_.y + 10, "Switch");
-    canv->setFont(buttonLabel, "bold italic");
+    canv->setFont(buttonLabel, "bold");
     msgLabel = canv->text(msgPos.x, msgPos.y, "");
     canv->penColor(msgLabel, "blue");
     canv->setFont(msgLabel, "bold", 15);
@@ -265,6 +263,8 @@ struct GUI {
 
   void displayGoFirst() {
     canv->setText(buttonLabel, "Play");
+    canv->hideShape(buttonLabel);
+    canv->hideShape(startButton);
     disabled = true;
     inPlay = true;
   }
@@ -274,10 +274,16 @@ struct GUI {
     makeMove(move, player.side);
   }
 
+  void show() {
+    canv->showShape(buttonLabel);
+    canv->showShape(startButton);
+  }
+
   void declareDraw() {
     disabled = false;
     canv->setText(msgLabel, "Drawn Game!!");
-    canv->setText(buttonLabel, "Again");
+    canv->setText(buttonLabel, "Restart");
+    show();
   }
 
   void declareWin(char winner) {
@@ -285,7 +291,8 @@ struct GUI {
     char text[10];
     snprintf(text, 10, "%c Wins", winner);
     canv->setText(msgLabel, text);
-    canv->setText(buttonLabel, "Again");
+    canv->setText(buttonLabel, "Restart");
+    show();
   }
 
   bool makeMove(int move, char side) {
@@ -297,10 +304,6 @@ struct GUI {
     int y1 = static_cast<int>(box.y1 + 30);
     int x2 = static_cast<int>(box.x2 - 30);
     int y2 = static_cast<int>(box.y2 - 30);
-    assert((0 < x1) && x1 < 500);
-    assert((0 < x2) && x1 < 500);
-    assert((0 < y1) && x1 < 500);
-    assert((0 < y2) && x1 < 500);
     int id;
     if (side == 'X') {
       id = canv->line({{x1, y1}, {x2, y2}});
@@ -311,7 +314,7 @@ struct GUI {
       id = canv->oval(x1, y1, x2, y2);
       canv->penSize(id, 6);
     }
-    if (tic_tac_toe.foundWinner(move, side)) {
+    if (tic_tac_toe.moveTo(move, side)) {
       declareWin(side);
       gameOver = true;
       return gameOver;
@@ -334,6 +337,10 @@ void StartButton::handle(GC::Mouse) {
 }
 
 void Button::handle(GC::Mouse) {
+  if (!gui->tic_tac_toe.squareEmpty(number)) {
+    // Stop attempt to play a square twice, akin to disabling a button
+    return;
+  }
   if (!gui->inPlay) {
     gui->displayGoFirst();
     gui->player = Player('O');
@@ -344,11 +351,20 @@ void Button::handle(GC::Mouse) {
   }
 }
 
+struct Exit : GC::EventHandler {
+  GC::Canvas *canv;
+  Exit(GC::Canvas *canv) : canv(canv) {}
+  virtual void handle(GCanvas::Mouse) override {
+    canv->kill();
+  }
+};
+
 int main() {
   GC::Canvas canv(600, 600, "Tic Tac Toe");
   canv.init();
   canv.background("tan");
   canv.noMaximize();
+  canv.bind("<Key-Esc>", Exit(&canv));
   GUI gui(&canv);
   return canv.loop();
 }
