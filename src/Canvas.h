@@ -693,6 +693,9 @@ class Canvas {
     //! Returns the coordinate of the top left corner of the window
     POINT windowPos();
 
+    //! Destroys the window
+    void kill();
+
     //! Creates the window with the default dimensions
     Canvas() {}
 

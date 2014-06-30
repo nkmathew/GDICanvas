@@ -23,6 +23,10 @@ bool GCanvas::ctrlKeyDown() {
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+void Canvas::kill() {
+  DestroyWindow(winHandle);
+}
+
 void Canvas::background(int red, int green, int blue) {
   HBRUSH brush = CreateSolidBrush(RGB(red, green, blue));
   SetClassLongPtr(winHandle, GCLP_HBRBACKGROUND, (LONG_PTR)brush);
