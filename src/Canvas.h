@@ -694,7 +694,7 @@ class Canvas {
     POINT windowPos();
 
     //! Destroys the window
-    void kill();
+    bool kill();
 
     //! Creates the window with the default dimensions
     Canvas() {}

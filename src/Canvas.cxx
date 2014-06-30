@@ -23,8 +23,8 @@ bool GCanvas::ctrlKeyDown() {
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-void Canvas::kill() {
-  DestroyWindow(winHandle);
+bool Canvas::kill() {
+  return DestroyWindow(winHandle);
 }
 
 void Canvas::background(int red, int green, int blue) {
