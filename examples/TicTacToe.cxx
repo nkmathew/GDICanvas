@@ -1,4 +1,5 @@
 #include "Canvas.h"
+#include <ctime>
 
 // Adapted from the Python code found here http://pastebin.com/C9rZiPsc
 
@@ -153,6 +154,7 @@ struct Player {
   }
 
   void shuffle() {
+    std::srand(std::time(0));
     std::random_shuffle(positions.begin(), positions.end());
   }
 
