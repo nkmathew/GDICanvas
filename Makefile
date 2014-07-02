@@ -65,5 +65,5 @@ $(INCLUDE_DIR)/%.h:$(SRC_DIR)/%.h
 
 clean:
 	rm -f $(LIB_DIR)/*.o $(LIBRARY) $(INCLUDE_DIR)/*.h
-	rm -f *.exe $(DEMOS)
+	rm -f *.exe $(DEMO_DIR)/*.exe
 
