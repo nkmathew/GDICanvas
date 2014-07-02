@@ -473,13 +473,18 @@ class Canvas {
 
     /*!
      * \brief Moves all the items with the specified tag above the shape with
-     * tag id \p first
+     * tag id \p target
      */
-    bool raiseShape(int first, const std::string& others);
+    bool raiseShape(const std::string &others, int target);
 
     //! Moves the item with id \p first below the item with id \p second in the
     //! display list
     bool lowerShape(int first, int second);
+
+    /*!
+     * \brief Moves all items with the specified tag below the shape with the id
+     */
+    bool lowerShape(const std::string &others, int target);
 
     /*!
      * \brief Registers the window and displays it

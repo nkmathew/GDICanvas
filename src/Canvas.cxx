@@ -457,11 +457,11 @@ std::vector<POINT> Canvas::coords(int id) {
   return {};
 }
 
-bool Canvas::raiseShape(int first, const std::string& others) {
+bool Canvas::raiseShape(const std::string &others, int target) {
   std::vector<int> shapes = findWithTag(others);
   bool res = false;
   for (int shape : shapes) {
-    res |= raiseShape(shape, first);
+    res |= raiseShape(shape, target);
   }
   return res;
 }
@@ -502,6 +502,15 @@ bool Canvas::raiseShape(int first, int second) {
     }
   }
   return false;
+}
+
+bool Canvas::lowerShape(const std::string &others, int target) {
+  std::vector<int> shapes = findWithTag(others);
+  bool res = false;
+  for (int shape : shapes) {
+    res |= lowerShape(shape, target);
+  }
+  return res;
 }
 
 bool Canvas::lowerShape(int first, int second) {
