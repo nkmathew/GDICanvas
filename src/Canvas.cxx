@@ -457,6 +457,15 @@ std::vector<POINT> Canvas::coords(int id) {
   return {};
 }
 
+bool Canvas::raiseShape(int first, const std::string& others) {
+  std::vector<int> shapes = findWithTag(others);
+  bool res = false;
+  for (int shape : shapes) {
+    res |= raiseShape(shape, first);
+  }
+  return res;
+}
+
 bool Canvas::raiseShape(int first, int second) {
   std::shared_ptr<GS::Shape> shape;
   int firstPos = -1;
