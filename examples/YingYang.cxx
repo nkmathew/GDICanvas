@@ -4,8 +4,8 @@ int main() {
   GC::Canvas canv(650, 650, "Ying Yang Demo");
   canv.init();
   int radius = 200;
-  int yPos = canv.windowSize().y / 2;
-  int xPos = canv.windowSize().x / 2;
+  long yPos = canv.windowSize().y / 2;
+  long xPos = canv.windowSize().x / 2;
   POINT centerTop = {xPos, yPos - radius / 2};
   POINT centerBottom = {xPos, yPos + radius / 2};
   std::string yinColor = "black";

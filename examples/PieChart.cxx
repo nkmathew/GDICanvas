@@ -18,7 +18,7 @@ int main() {
 
   std::map<int, int> freqs = calcDegrees(values);
   int nValues = values.size();
-  GS::Box box = {100, 100, 600, 600};
+  GS::Box box = {100L, 100L, 600L, 600L};
   int angle = 0;
   int red = 10,
       green = 40,

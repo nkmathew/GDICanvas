@@ -721,13 +721,15 @@ struct Box {
 
   //! bottom right corner's coordinates
   float x2, y2;
+
   Box(float x1_, float y1_, float x2_, float y2_) {
     x1 = x1_;
     y1 = y1_;
     x2 = x2_;
     y2 = y2_;
   }
-  Box(int x1_, int y1_, int x2_, int y2_) {
+
+  Box(long x1_, long y1_, long x2_, long y2_) {
     // Created to suppress narrowing conversion warnings with uniform
     // initializers.
     x1 = x1_;
@@ -735,6 +737,7 @@ struct Box {
     x2 = x2_;
     y2 = y2_;
   }
+
   Box(RECT rect) {
     // For conversions from WinAPI's RECT struct
     x1 = rect.left;
