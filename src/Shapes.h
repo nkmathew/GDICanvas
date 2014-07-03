@@ -722,6 +722,13 @@ struct Box {
   //! bottom right corner's coordinates
   float x2, y2;
 
+  Box() {
+    x1 = 0.0f;
+    x2 = 0.0f;
+    y1 = 0.0f;
+    y2 = 0.0f;
+  }
+
   Box(float x1_, float y1_, float x2_, float y2_) {
     x1 = x1_;
     y1 = y1_;
