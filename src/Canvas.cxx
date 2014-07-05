@@ -1238,30 +1238,36 @@ LRESULT CALLBACK Canvas::handleMessage(const HWND &winHandle,
     }
     break;
     case WM_MBUTTONDOWN: {
-      callHandlers(WHEEL_CLICK);
-      InvalidateRect(winHandle, NULL, TRUE);
+      if (callHandlers(WHEEL_CLICK)) {
+        InvalidateRect(winHandle, NULL, TRUE);
+      }
     }
     break;
     case WM_LBUTTONDOWN: {
+      bool called = false;
       if (ctrlKeyDown()) {
-        callHandlers(CTRL_LEFT_CLICK);
+        called |= callHandlers(CTRL_LEFT_CLICK);
       } else if (altKeyDown()) {
-        callHandlers(ALT_LEFT_CLICK);
+        called |= callHandlers(ALT_LEFT_CLICK);
       } else {
-        callHandlers(LEFT_CLICK);
+        called |= callHandlers(LEFT_CLICK);
       }
-      InvalidateRect(winHandle, NULL, TRUE);
+      if (called) {
+        InvalidateRect(winHandle, NULL, TRUE);
+      }
     }
     break;
     case WM_RBUTTONDOWN: {
-      callHandlers(RIGHT_CLICK);
-      InvalidateRect(winHandle, NULL, TRUE);
+      if (callHandlers(RIGHT_CLICK)) {
+        InvalidateRect(winHandle, NULL, TRUE);
+      }
     }
     break;
     case WM_MOUSEWHEEL: {
       int wheelDelta = static_cast<short>(HIWORD(wParam));
-      callHandlers(WHEEL_ROLL, wheelDelta / WHEEL_DELTA);
-      InvalidateRect(winHandle, NULL, TRUE);
+      if (callHandlers(WHEEL_ROLL, wheelDelta / WHEEL_DELTA)) {
+        InvalidateRect(winHandle, NULL, TRUE);
+      }
       return 0;
     }
     break;
@@ -1275,21 +1281,27 @@ LRESULT CALLBACK Canvas::handleMessage(const HWND &winHandle,
     }
     break;
     case WM_SYSKEYDOWN: {
-      callHandlers(ALT_KEY, wParam);
+      bool called = false;
+      called |= callHandlers(ALT_KEY, wParam);
       if (shiftKeyDown()) {
-        callHandlers(ALT_SHIFT_KEY, wParam);
+        called |= callHandlers(ALT_SHIFT_KEY, wParam);
       }
-      InvalidateRect(winHandle, NULL, TRUE);
+      if (called) {
+        InvalidateRect(winHandle, NULL, TRUE);
+      }
     }
     break;
     case WM_KEYDOWN: {
-      callHandlers(BARE_KEY, wParam);
+      bool called = false;
+      called |= callHandlers(BARE_KEY, wParam);
       if (shiftKeyDown() && ctrlKeyDown()) {
-        callHandlers(CTRL_SHIFT_KEY, wParam);
+        called |= callHandlers(CTRL_SHIFT_KEY, wParam);
       } else if (ctrlKeyDown()) {
-        callHandlers(CTRL_KEY, wParam);
+        called |= callHandlers(CTRL_KEY, wParam);
       }
-      InvalidateRect(winHandle, NULL, TRUE);
+      if (called) {
+        InvalidateRect(winHandle, NULL, TRUE);
+      }
     }
     break;
     case WM_CLOSE:
