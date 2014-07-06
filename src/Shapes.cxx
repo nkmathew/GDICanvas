@@ -606,6 +606,11 @@ bool Text::overlapsWithRegion(const Vec::Vec2D &topLeft_,
   return BBoxOverlapsRegion(topLeft_, bottomRight_);
 }
 
+void Text::move(int xAmount, int yAmount) {
+  Vec::Vec2D vector(xAmount, yAmount);
+  start = start + vector;
+}
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~[ Oval ]~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 void Oval::draw(HDC paintDC) {

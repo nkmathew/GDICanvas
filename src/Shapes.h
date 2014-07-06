@@ -491,6 +491,7 @@ struct Text : Shape {
   //! Returns the size of the text area
   POINT textArea(HDC paintDC);
   void createFont(HFONT *font);
+  virtual void move(int xAmount, int yAmount) override;
 
   /*!
    * \brief Draws the text on the screen.
