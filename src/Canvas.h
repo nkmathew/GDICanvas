@@ -720,6 +720,14 @@ class Canvas {
     //! Creates window positioned at `(x, y)`
     Canvas(int x, int y);
 
+    /*!
+     * \brief Returns the window's handle.
+     *
+     * Useful when displaying message boxes especially when you don't wan't the
+     * message box to be ignored.
+     */
+    HWND handle();
+
   private:
     Canvas(const Canvas &);
     Canvas &operator=(const Canvas &);

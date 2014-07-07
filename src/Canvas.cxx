@@ -23,6 +23,10 @@ bool GCanvas::ctrlKeyDown() {
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+HWND Canvas::handle() {
+  return winHandle;
+}
+
 bool Canvas::kill() {
   return DestroyWindow(winHandle);
 }
