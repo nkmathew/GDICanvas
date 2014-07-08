@@ -74,7 +74,7 @@ struct GUI {
         number++;
         id = canv->rectangle(box);
         char text[5];
-        snprintf(text, 10, "%d", number);
+        snprintf(text, 5, "%d", number);
         int txt;
         if (number < 10) {
           txt = canv->text(start.x + 30, start.y + 20, text);
