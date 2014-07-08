@@ -704,6 +704,12 @@ class Canvas {
     //! Returns the coordinate of the top left corner of the window
     POINT windowPos();
 
+    //! Maximizes the window
+    void maximize();
+
+    //! Minimizes the window
+    void minimize();
+
     //! Destroys the window
     bool kill();
 

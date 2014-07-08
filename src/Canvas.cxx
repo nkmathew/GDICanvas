@@ -23,6 +23,14 @@ bool GCanvas::ctrlKeyDown() {
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+void Canvas::maximize() {
+  ShowWindow(winHandle, SW_MAXIMIZE);
+}
+
+void Canvas::minimize() {
+  ShowWindow(winHandle, SW_MINIMIZE);
+}
+
 HWND Canvas::handle() {
   return winHandle;
 }
