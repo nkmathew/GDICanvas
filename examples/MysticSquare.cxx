@@ -2,7 +2,7 @@
 #include <ctime>
 
 /*!
- * start: 1st July 2014
+ * started: 1st July 2014
  * completed: 7th July 2014
  *
  * Move the squares using the arrow keys or left mouse.
