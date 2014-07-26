@@ -237,7 +237,6 @@ struct GUI {
   }
 
   // Moves the empty square if they are adjacent.
-  // Returns the shape's new position.
   bool moveSquare(int shapeID, int fromPos, int toPos) {
     POINT pointFrom = squareCoord[fromPos];
     POINT pointTo = squareCoord[toPos];
