@@ -320,7 +320,7 @@ ELLIPSE_POINTS Shape::ordinateToCoord(float y) {
     // No valid point found
     return {
       {FLT_MAX, y},
-      { -FLT_MAX, y}
+      {-FLT_MAX, y}
     };
   }
   return {
