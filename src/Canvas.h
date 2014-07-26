@@ -332,7 +332,7 @@ class Canvas {
      * \code
      *   GC::Canvas canv;
      *   int id = canv.circle(400, 500, 50);
-     *   canv.bind("<Mouse-1>", id");
+     *   canv.unbind("<Mouse-1>", id);
      * \endcode
      *
      */
@@ -799,7 +799,6 @@ class Canvas {
     HWND winHandle;
     HINSTANCE winInst = GetModuleHandle(NULL);
     MSG windowMessage;
-    HDC paintDC;
     std::map<EventType, std::vector<Event>> events;
     std::vector<std::shared_ptr<GS::Shape>> shapeList;
 };

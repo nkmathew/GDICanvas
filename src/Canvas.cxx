@@ -1207,7 +1207,7 @@ LRESULT CALLBACK Canvas::handleMessage(const HWND &winHandle,
       break;
     case WM_PAINT: {
       PAINTSTRUCT paintStruct;
-      paintDC = BeginPaint(winHandle, &paintStruct);
+      HDC paintDC = BeginPaint(winHandle, &paintStruct);
       for (const auto &shape : shapeList) {
         HPEN oldPen, newPen;
         HBRUSH oldBrush, newBrush;
