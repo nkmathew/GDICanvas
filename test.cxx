@@ -13,13 +13,13 @@ struct MoveTurtle : GC::EventHandler {
     shape = id;
   }
   void handle(Mouse mouse) {
-    canv->maximize();
     canv->rectangle(canv->BBox(shape));
     if (mouse.delta() >= 0) {
       canv->moveShape(shape, x, y);
     } else  {
       canv->moveShape(shape, -x, -y);
     }
+    canv->timer(1000, *this);
   }
 };
 
@@ -37,10 +37,13 @@ int main() {
   canv.setFont("text", "bold");
   turtle = canv.polygon({{0, 16}, {-2, 14}, {-1, 10}, {-4, 7}, {-7, 9}, {-9, 8},
     {-6, 5}, {-7, 1}, {-5, -3}, {-8, -6}, {-6, -8}, {-4, -5}, {0, -7}, {4, -5},
-    {6, -8}, {8, -6}, {5, -3}, {7, 1}, {6, 5}, {9, 8}, {7, 9}, {4, 7}, {1, 10}, {2, 14}
+    {6, -8}, {8, -6}, {5, -3}, {7, 1}, {6, 5}, {9, 8}, {7, 9}, {4, 7}, {1, 10},
+    {2, 14}
   });
   canv.rectangle(canv.BBox(turtle));
   canv.fillColor(turtle, "yellow");
+  canv.timer(1000, MoveTurtle(20, 30, text, &canv));
   canv.bind("<Mouse-1>", MoveTurtle(20, 30, text, &canv), "text");
   return canv.loop();
 }
+

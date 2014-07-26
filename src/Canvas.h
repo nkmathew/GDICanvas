@@ -83,6 +83,7 @@ class Mouse {
       wheelDelta = wheelDelta_;
     }
 
+    //! Returns the wheel roll's direction
     int delta();
 
     //! Cursor position from top left of screen
@@ -118,6 +119,7 @@ struct Event {
   // A shape id and tag are needed in mouse events. The mouse event handler will
   // be called only if the mouse position is within that shape.
   int shapeID = -1;
+  int timerID = -1;
   std::string shapeTag = "";
   std::shared_ptr<EventHandler> handler = std::shared_ptr<EventHandler>(nullptr);
   EventType eventType = INVALID_EVENT;
@@ -344,9 +346,11 @@ class Canvas {
     //! Add a timer event. The function will be called once.
     template<typename FunctorType>
     bool timer(int millSecs, FunctorType func) {
-      SetTimer(winHandle, 1, millSecs, NULL);
+      int timerID = ++timerCount;
+      SetTimer(winHandle, timerID, millSecs, NULL);
       FunctorType *func_ = new FunctorType(func);
       Event event(func_, TIMER);
+      event.timerID = timerID;
       return addHandler(event, "<timer>");
     }
 
@@ -785,6 +789,7 @@ class Canvas {
      */
     int addShape(GS::Shape *newShape);
 
+    int timerCount = 0;
     int cmdShow = SW_SHOWNORMAL;
     int winHeight = 700;
     int winWidth = 700;

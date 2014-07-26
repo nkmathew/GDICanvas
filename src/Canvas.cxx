@@ -87,8 +87,9 @@ bool Canvas::addHandler(Event event, const std::string &keyStr) {
   }
   int key = virtualKeys[keyStr];
   if (key) {
-    if ((key != 1) || (key != 2) || (key != 4)) {
+    if ((key != VK_LBUTTON) && (key != VK_RBUTTON) && (key != VK_MBUTTON)) {
       // Only set the key if it's a keyboard event.
+      // VK_LBUTTON = 1; VK_RBUTTON = 2; VK_MBUTTON = 4
       event.keyToHandle = key;
     }
     events[event.eventType].push_back(event);
@@ -151,15 +152,19 @@ bool Canvas::callHandlers(EventType type, int key) {
     // Keyboard event
     int id = event.shapeID;
     std::string tag = event.shapeTag;
-    if ((type == LEFT_CLICK) ||
-        (type == CTRL_LEFT_CLICK) ||
-        (type == ALT_LEFT_CLICK) ||
-        (type == RIGHT_CLICK) ||
-        (type == HOVER) ||
-        (type == TIMER) ||
-        (type == WHEEL_ROLL) ||
-        (type == WHEEL_CLICK)) {
-      Mouse mouse(winHandle, key);
+    if ((type == TIMER) && (event.timerID == key)) {
+      Mouse mouse(winHandle);
+      event.handler->handle(mouse);
+      called = true;
+    } else if ((type == LEFT_CLICK) ||
+               (type == CTRL_LEFT_CLICK) ||
+               (type == ALT_LEFT_CLICK) ||
+               (type == RIGHT_CLICK) ||
+               (type == HOVER) ||
+               (type == WHEEL_ROLL) ||
+               (type == WHEEL_CLICK)) {
+      int delta = key;
+      Mouse mouse(winHandle, delta);
       if ((id == -1) && (tag == "")) {
         // An unbound mouse event handler.
         event.handler->handle(mouse);
@@ -1233,12 +1238,10 @@ LRESULT CALLBACK Canvas::handleMessage(const HWND &winHandle,
     }
     break;
     case WM_TIMER: {
-      switch (wParam) {
-        case 1: {
-          callHandlers(TIMER);
-        }
-      }
-      KillTimer(winHandle, 1);
+      // wParam in this case is the timer ID
+      callHandlers(TIMER, wParam);
+      KillTimer(winHandle, wParam);
+      InvalidateRect(winHandle, NULL, TRUE);
     }
     break;
     case WM_MOUSEMOVE: {
