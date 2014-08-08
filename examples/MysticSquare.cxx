@@ -116,7 +116,7 @@ struct GUI {
   // Scrambles by playing random moves starting from an already solved board
   void scramble() {
     std::vector<int> positions = genNumbers();
-    for (unsigned i = 1; i <= positions.size(); i++) {
+    for (unsigned i = 1; i < positions.size(); i++) {
       int direction = positions[i];
       Adjacent adj = adjacents(emptySquare);
       int move = 0;
