@@ -558,19 +558,19 @@ RGBValue Colors::hexToRGB(const std::string &colorString) {
   return rgb;
 }
 
-/*!
- * \brief Case insensitive string comparison.
- * The function is redefined here because the one in string.h doesn't work
- * when with -std=c++11. Not sure why.
- */
-bool strcmpi(const char *a, const char *b) {
-  for (;; a++, b++) {
-    int d = tolower(*a) - tolower(*b);
-    if (d != 0 || *a == '\0') {
-      return d == 0;
-    }
-  }
-}
+// /*!
+//  * \brief Case insensitive string comparison.
+//  * The function is redefined here because the one in string.h doesn't work
+//  * when with -std=c++11. Not sure why.
+//  */
+// bool strcmpi(const char *a, const char *b) {
+//   for (;; a++, b++) {
+//     int d = tolower(*a) - tolower(*b);
+//     if (d != 0 || *a == '\0') {
+//       return d == 0;
+//     }
+//   }
+// }
 
 //! Searches struct COLORNAMES for the name. Returns on first occurrence.
 std::string Colors::hexValue(const std::string &colorName) {
