@@ -580,7 +580,7 @@ std::string Colors::hexValue(const std::string &colorName) {
   }
   for (int i = 0; i < COLORNAMES; i++) {
     RGBName rgbName = RGB_COLORNAMES[i];
-    if (strcmpi(rgbName.colorName, colorName.c_str())) {
+    if (!strcmpi(rgbName.colorName, colorName.c_str())) {
       hexString = rgbName.rgbValue;
       return hexString;
     }
@@ -642,4 +642,3 @@ COLORREF Colors::hexToColorRef(const std::string &colorString) {
   RGBValue rgb = hexToRGB(colorString);
   return RGB(rgb.red, rgb.green, rgb.blue);
 }
-
