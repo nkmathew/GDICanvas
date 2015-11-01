@@ -105,18 +105,22 @@ struct TicTacToe {
   }
 
   // Makes the move to that square and returns true if there's a winner
-  bool moveTo(int pos, char side) {
+  std::string moveTo(int pos, char side) {
     board[pos] = side;
+    std::string threeSquares = ""; // Will be used for drawing a line across them
     for (int *winner : winningCombos) {
       int w1 = winner[0],
           w2 = winner[1],
           w3 = winner[2];
       bool inWinner = (w1 == pos) || (w2 == pos) || (w3 == pos);
       if (inWinner && (squareCount(w1, w2, w3, side) == 3)) {
+        char nums[10];
+        snprintf(nums, 10, "%d%d%d", w1, w2, w3);
+        threeSquares = nums;
         gameWon = side;
       }
     }
-    return gameWon;
+    return threeSquares;
   }
 
   // Returns the position that'll avoid the opponents fork
@@ -288,12 +292,54 @@ struct GUI {
     show();
   }
 
-  void declareWin(char winner) {
+  void declareWin(char winner, const std::string combo) {
     disabled = false;
     char text[10];
     snprintf(text, 10, "%c Wins", winner);
     canv->setText(msgLabel, text);
     canv->setText(buttonLabel, "Restart");
+    int length = squareLength / 2,
+        width  = squareWidth / 2;
+    POINT start = origin,
+          end = origin;
+    if (combo == "012") {
+      start = {origin.x, origin.y-length * 5};
+      end = {origin.x + squareWidth * 3, origin.y - length * 5};
+    }
+    if (combo == "345") {
+      start = {origin.x, origin.y-length * 3};
+      end = {origin.x + squareWidth * 3, origin.y - length * 3};
+    }
+    if (combo == "678") {
+      start = {origin.x, origin.y-length};
+      end = {origin.x + squareWidth * 3, origin.y - length};
+    }
+    if (combo == "036") {
+      start = {origin.x+width, origin.y};
+      end = {origin.x+width, origin.y - squareLength * 3};
+    }
+    if (combo == "147") {
+      start = {origin.x+width * 3, origin.y};
+      end = {origin.x+width * 3, origin.y - squareLength * 3};
+    }
+    if (combo == "258") {
+      start = {origin.x+width * 5, origin.y};
+      end = {origin.x+width * 5, origin.y - squareLength * 3};
+    }
+    if (combo == "246") {
+      start = origin;
+      end = {origin.x + squareWidth * 3, origin.y - squareLength * 3};
+    }
+    if (combo == "048") {
+      start = {origin.x + squareWidth * 3, origin.y};
+      end = {origin.x, origin.y - squareLength * 3};
+    }
+    int crossLine = canv->line({start, end});
+    canv->circle(start.x, start.y, 5);
+    canv->circle(end.x, end.y, 5);
+    canv->fillColor("circle", "yellow");
+    canv->penSize("circle", 2);
+    canv->penSize(crossLine, 10);
     show();
   }
 
@@ -316,8 +362,9 @@ struct GUI {
       id = canv->oval(x1, y1, x2, y2);
       canv->penSize(id, 6);
     }
-    if (tic_tac_toe.moveTo(move, side)) {
-      declareWin(side);
+    std::string combo = tic_tac_toe.moveTo(move, side);
+    if (combo != "") {
+      declareWin(side, combo);
       gameOver = true;
       return gameOver;
     }
@@ -370,4 +417,3 @@ int main() {
   GUI gui(&canv);
   return canv.loop();
 }
-
