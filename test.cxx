@@ -32,8 +32,8 @@ int main() {
   canv.text(420, 130, "all she wrote");
   canv.text(100, 130, "all she wrote");
   int text = canv.text(250, 130, "all she wrote");
-  canv.penColor("text", "green");
-  canv.fillColor("text", "black");
+  canv.penColor("text", "white");
+  canv.fillColor("text", "forest green");
   canv.setFont("text", "bold");
   turtle = canv.polygon({{0, 16}, {-2, 14}, {-1, 10}, {-4, 7}, {-7, 9}, {-9, 8},
     {-6, 5}, {-7, 1}, {-5, -3}, {-8, -6}, {-6, -8}, {-4, -5}, {0, -7}, {4, -5},
@@ -46,4 +46,3 @@ int main() {
   canv.bind("<Mouse-1>", MoveTurtle(20, 30, text, &canv), "text");
   return canv.loop();
 }
-

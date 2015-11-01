@@ -968,12 +968,13 @@ bool Canvas::fillColor(const std::string &tagName, int red, int green, int blue)
   return fillColor(tagName, Colors::RGBTohex(red, green, blue));
 }
 
-bool Canvas::fillColor(const std::string &tagName, std::string colorString) {
-  colorString = Colors::hexValue(colorString);
+bool Canvas::fillColor(const std::string &tagName, std::string colorStr) {
+  colorStr.erase(std::remove(colorStr.begin(), colorStr.end(), ' '), colorStr.end());
+  colorStr = Colors::hexValue(colorStr);
   bool foundAny = false;
   for (const auto &shape : shapeList) {
     if (shape->hasTag(tagName)) {
-      shape->setFillColor(colorString);
+      shape->setFillColor(colorStr);
       foundAny = true;
     }
   }
@@ -1334,4 +1335,3 @@ LRESULT CALLBACK Canvas::handleMessage(const HWND &winHandle,
 int Canvas::init() {
   return init(winInst, cmdShow);
 }
-
