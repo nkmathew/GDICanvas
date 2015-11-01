@@ -1,6 +1,6 @@
 ### GDICanvas : A GDI pseudo-canvas
-GDICanvas is a petite library for doing basic graphics using  [WinAPI's](http://msdn.microsoft.com/en-us/library/ff818516.aspx) **GDI**([Graphics Device Interface](http://msdn.microsoft.com/en-us/library/windows/desktop/dd145203.aspx)).
-This project is basically an attempt to replicate all the functionality in [Tkinter's Canvas](http://www.effbot.org/tkinterbook/canvas.htm).
+GDICanvas is a petite library for doing basic graphics using  [WinAPI's][1] **GDI**([Graphics Device Interface][2]).
+This project is basically an attempt to replicate all the functionality in [Tkinter's Canvas][3].
 
 #### Building
 
@@ -11,7 +11,7 @@ directory if the build ends successfully.
 MSYS/Cygwin is needed because of the *cp* and *rm* commands used in the *Makefile*.
 Git Bash, unfortunately, doesn't play well with *CMD.exe's* internal commands like *del q*.
 
-####HelloWorld
+#### HelloWorld
 The obligatory *'hello world'* looks something like this:
 
 ```C++
@@ -34,7 +34,7 @@ combination in case the executable turns out to be huge.
 
 _____
 
-#####Events
+##### Events
 Events are specified and bound the same way as in Tkinter, delimited by angle
 brackets. An example:
 
@@ -64,15 +64,17 @@ The handler will be called when the mouse is above that shape for a period of
 time(as the hinted in the event string). Omitting the last parameter will cause
 the handler to be called when the mouse is above the window/canvas.
 
-####Docs
+#### Docs
 Documentation can be generated using [doxygen](http://www.doxygen.org/index.html)
 by running the command in the parent directory.
 You should remove the stylesheet files(**doxygen.css**, **tabs.css**) from the
 source folder if you prefer doxygen's default layout.
 
-####And then?
+#### And then?
 The next step is to create a turtle graphics using GDICanvas something that'll be
 done once I figure out how Tk's Canvas draws so efficiently without flickering.
 Other than that, you're free to run the demos in the *examples* folder.
 
-
+[1]: http://msdn.microsoft.com/en-us/library/ff818516.aspx
+[2]: http://msdn.microsoft.com/en-us/library/windows/desktop/dd145203.aspx
+[3]: http://www.effbot.org/tkinterbook/canvas.htm
