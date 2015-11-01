@@ -21,7 +21,7 @@ CXX_FLAGS += -s -O -DNDEBUG
 endif
 
 test:$(TEST).exe
-	$(TEST).exe
+	./$(TEST).exe
 
 $(TEST).exe:$(LIBRARY) $(INCLUDES) $(TEST).cxx
 	$(CC) -I$(INCLUDE_DIR) $(TEST).cxx -lGDICanvas $(CXX_FLAGS) -L$(LIB_DIR) -o $(TEST).exe
@@ -66,4 +66,3 @@ $(INCLUDE_DIR)/%.h:$(SRC_DIR)/%.h
 clean:
 	rm -f $(LIB_DIR)/*.o $(LIBRARY) $(INCLUDE_DIR)/*.h
 	rm -f *.exe $(DEMO_DIR)/*.exe
-
