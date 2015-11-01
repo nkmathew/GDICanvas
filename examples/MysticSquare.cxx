@@ -404,4 +404,3 @@ int main() {
   canv.bind("<Key-Right>", ArrowKey(&gui, RIGHT));
   return canv.loop();
 }
-

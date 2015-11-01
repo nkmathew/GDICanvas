@@ -813,5 +813,3 @@ class Canvas {
 namespace GC = GCanvas;
 
 #endif
-
-
