@@ -103,4 +103,3 @@ std::string RGBTohex(int red, int green, int blue);
 } // namespace Colors
 
 #endif
-

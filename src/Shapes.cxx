@@ -1053,4 +1053,3 @@ std::vector<POINT> LineArc::coords() const {
   coordVector.push_back(static_cast<POINT>(endPoint()));
   return coordVector;
 }
-

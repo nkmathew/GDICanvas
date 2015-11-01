@@ -84,4 +84,3 @@ static std::map<std::string, int> virtualKeys = {
   {"f23", VK_F23},
   {"f24", VK_F24}
 };
-

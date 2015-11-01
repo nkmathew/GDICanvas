@@ -109,5 +109,3 @@ float Vec2D::magnitude(const Vec2D &other) {
   Vec2D vector(*this - other);
   return std::sqrt(std::pow(vector.x, 2.0) + std::pow(vector.y, 2.0));
 }
-
-

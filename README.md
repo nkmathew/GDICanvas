@@ -1,7 +1,5 @@
 ### GDICanvas : A GDI pseudo-canvas
 
-[Demo](http://i.imgur.com/z9dLXFz.gif)
-
 GDICanvas is a petite library for doing basic graphics using  [WinAPI's][1] **GDI**([Graphics Device Interface][2]).
 This project is basically an attempt to replicate all the functionality in [Tkinter's Canvas][3].
 
@@ -76,6 +74,8 @@ source folder if you prefer doxygen's default layout.
 #### What next?
 Creating a turtle graphics library based on GDICanvas once I figure out how to draw
 fast enough without flickering
+
+![Demo](http://i.imgur.com/z9dLXFz.gif)
 
 [1]: http://msdn.microsoft.com/en-us/library/ff818516.aspx
 [2]: http://msdn.microsoft.com/en-us/library/windows/desktop/dd145203.aspx

@@ -5,6 +5,7 @@
 #ifndef Canvas_H_
 #define Canvas_H_
 
+#define GDICANVAS_VERSION "1.0.0"
 #define _WIN32_WINNT 0x501
 
 #include <windows.h>
@@ -813,5 +814,3 @@ class Canvas {
 namespace GC = GCanvas;
 
 #endif
-
-
