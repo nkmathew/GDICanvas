@@ -66,10 +66,9 @@ time(as the hinted in the event string). Omitting the last parameter will cause
 the handler to be called when the mouse is above the window/canvas.
 
 #### Docs
-Documentation can be generated using [doxygen](http://www.doxygen.org/index.html)
-by running the command in the parent directory.
-You should remove the stylesheet files(**doxygen.css**, **tabs.css**) from the
-source folder if you prefer doxygen's default layout.
+Documentation can be generated using [doxygen][4] by running:
+  + `make docs`: generates documentation with my custom stylesheet
+  + `make doc1`: generates documentation with Doxygen's default layout/styling
 
 #### What next?
 Creating a turtle graphics library based on GDICanvas once I figure out how to draw
@@ -80,3 +79,4 @@ fast enough without flickering
 [1]: http://msdn.microsoft.com/en-us/library/ff818516.aspx
 [2]: http://msdn.microsoft.com/en-us/library/windows/desktop/dd145203.aspx
 [3]: http://www.effbot.org/tkinterbook/canvas.htm
+[4]: http://www.doxygen.org/index.html
