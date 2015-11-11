@@ -63,6 +63,14 @@ $(LIB_DIR)/Colors.o:$(SRC_DIR)/Colors.cxx $(SRC_DIR)/Colors.h
 $(INCLUDE_DIR)/%.h:$(SRC_DIR)/%.h
 	cp $< $(INCLUDE_DIR)
 
+## Generates Doxygen documentation with the default styling
+docs1:
+	doxygen Doxyfile1
+
+## Generates Doxygen documentation with the custom css styling
+docs:
+	doxygen Doxyfile
+
 clean:
 	rm -f $(LIB_DIR)/*.o $(LIBRARY) $(INCLUDE_DIR)/*.h
 	rm -f *.exe $(DEMO_DIR)/*.exe
