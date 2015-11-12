@@ -15,20 +15,23 @@ OBJECTS     = $(LIB_DIR)/$(DEMO_RC).o
 OBJECTS    += $(patsubst $(SRC_DIR)/%.cxx, $(LIB_DIR)/%.o, $(wildcard $(SRC_DIR)/*.cxx))
 
 ifdef DEBUG
-CXX_FLAGS += -g -pg -DDEBUG
+	CXX_FLAGS += -g -pg -DDEBUG
 else
-CXX_FLAGS += -s -O -DNDEBUG
+	CXX_FLAGS += -s -O -DNDEBUG
 endif
 
 test:$(TEST).exe
 	./$(TEST).exe
+.PHONY : test
 
 $(TEST).exe:$(LIBRARY) $(INCLUDES) $(TEST).cxx
 	$(CC) -I$(INCLUDE_DIR) $(TEST).cxx -lGDICanvas $(CXX_FLAGS) -L$(LIB_DIR) -o $(TEST).exe
 
 all:lib $(DEMOS) $(TEST).exe
+.PHONY : all
 
 lib:$(OBJECTS) $(INCLUDES) $(LIBRARY)
+.PHONY : lib
 
 ## Library
 $(LIBRARY): $(OBJECTS)
@@ -66,11 +69,23 @@ $(INCLUDE_DIR)/%.h:$(SRC_DIR)/%.h
 ## Generates Doxygen documentation with the default styling
 docs1:
 	doxygen Doxyfile1
+.PHONY : docs1
 
 ## Generates Doxygen documentation with the custom css styling
 docs:
 	doxygen Doxyfile
+.PHONY : docs
 
 clean:
 	rm -f $(LIB_DIR)/*.o $(LIBRARY) $(INCLUDE_DIR)/*.h
 	rm -f *.exe $(DEMO_DIR)/*.exe
+.PHONY : clean
+
+help:
+	@echo -e "The following are some of the valid targets for this Makefile: \n"
+	@echo "   ... all (the default if no target is provided)"
+	@echo "   ... clean"
+	@echo "   ... docs"
+	@echo "   ... docs1"
+	@echo "   ... test"
+.PHONY : help
