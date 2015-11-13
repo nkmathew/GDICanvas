@@ -30,6 +30,9 @@ $(TEST).exe:$(LIBRARY) $(INCLUDES) $(TEST).cxx
 all:lib $(DEMOS) $(TEST).exe
 .PHONY : all
 
+demos:$(DEMOS)
+.PHONY : demos
+
 lib:$(OBJECTS) $(INCLUDES) $(LIBRARY)
 .PHONY : lib
 
@@ -88,4 +91,6 @@ help:
 	@echo "   ... docs"
 	@echo "   ... docs1"
 	@echo "   ... test"
+	@echo "   ... lib"
+	@echo "   ... demos"
 .PHONY : help
