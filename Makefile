@@ -79,6 +79,9 @@ docs:
 	doxygen Doxyfile
 .PHONY : docs
 
+cmake:
+	cd build/cmake && cmake -G "MinGW Makefiles" ../.. && cmake . --build
+
 clean:
 	rm -f $(LIB_DIR)/*.o $(LIBRARY) $(INCLUDE_DIR)/*.h
 	rm -f *.exe $(DEMO_DIR)/*.exe
