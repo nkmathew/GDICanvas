@@ -85,6 +85,7 @@ cmake:
 clean:
 	rm -f $(LIB_DIR)/*.o $(LIBRARY) $(INCLUDE_DIR)/*.h
 	rm -f *.exe $(DEMO_DIR)/*.exe
+	cd build/cmake && ls | grep -v .gitignore | xargs rm -rf
 .PHONY : clean
 
 help:
