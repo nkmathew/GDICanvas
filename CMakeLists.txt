@@ -65,7 +65,7 @@ set(H_FILES
     ${INC_DIR}/build/include/logo.h
     )
 
-# add_subdirectory(examples)
+add_subdirectory(examples)
 
 add_library(${LIB_NAME} STATIC ${CXX_FILES} ${INCLUDE_FILES})
 set_target_properties(${LIB_NAME} PROPERTIES LINKER_LANGUAGE CXX)
