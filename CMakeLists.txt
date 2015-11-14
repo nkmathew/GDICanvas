@@ -28,7 +28,7 @@ if(MINGW)
         "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
 endif(MINGW)
 
-message(${CMAKE_CXX_FLAGS})
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Source Files
 set(CXX_FILES
@@ -57,6 +57,6 @@ set_target_properties(${LIB_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 # Copy the include files to the build folder
 file(COPY ${INCLUDE_FILES} DESTINATION ${BUILD_DIR}/include)
 
-add_executable(demo WIN32 demo.cxx)
+add_executable(demo WIN32 demo.cxx src/logo.rc)
 target_link_libraries(demo ${LIB_NAME})
 target_include_directories(demo PUBLIC build/include)
