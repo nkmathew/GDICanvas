@@ -30,12 +30,6 @@ endif(MINGW)
 
 message(${CMAKE_CXX_FLAGS})
 
-set(EXECUTABLE_NAME test)
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
-
-# Name of test file
-set(TEST test)
-
 # Source Files
 set(CXX_FILES
     ${SRC_DIR}/Canvas.cxx
@@ -53,16 +47,6 @@ set(INCLUDE_FILES
     src/Vec2D.h
     src/VirtualKeys.h
     src/logo.h
-    )
-
-# Include files. To be copied to the build folder
-set(H_FILES
-    ${INC_DIR}/build/include/Canvas.h
-    ${INC_DIR}/build/include/Colors.h
-    ${INC_DIR}/build/include/Shapes.h
-    ${INC_DIR}/build/include/Vec2D.h
-    ${INC_DIR}/build/include/VirtualKeys.h
-    ${INC_DIR}/build/include/logo.h
     )
 
 add_subdirectory(examples)
