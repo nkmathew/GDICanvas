@@ -4,7 +4,7 @@ CC          = gcc
 SRC_DIR     = src
 BUILD_DIR   = build
 DEMO_DIR    = examples
-TEST        = test
+TEST        = demo
 DEMO_RC     = logo
 LIB_DIR     = $(BUILD_DIR)/lib
 INCLUDE_DIR = $(BUILD_DIR)/include
@@ -79,9 +79,13 @@ docs:
 	doxygen Doxyfile
 .PHONY : docs
 
+cmake:
+	cd build/cmake && cmake -G "MinGW Makefiles" ../.. && cmake --build .
+
 clean:
 	rm -f $(LIB_DIR)/*.o $(LIBRARY) $(INCLUDE_DIR)/*.h
 	rm -f *.exe $(DEMO_DIR)/*.exe
+	cd build/cmake && ls | grep -v .gitignore | xargs rm -rf
 .PHONY : clean
 
 help:
