@@ -12,7 +12,19 @@ directory if the build ends successfully.
 MSYS/Cygwin is needed because of the *cp* and *rm* commands used in the *Makefile*.
 Git Bash, unfortunately, doesn't play well with *CMD.exe's* internal commands like *del q*.
 
-#### HelloWorld
+You can also generate IDE specific project files by using cmake with a command like
+this:
+
+```bash
+cd build/cmake && cmake -G "CodeBlocks - MinGW Makefiles" ../..
+```
+
+Run `cmake -G` to view a list of the supported IDEs. This is not a guarantee that the project
+will build successfully in all of them. It can only build flawlessly with GNU's
+compiler. I'll get around at some point to fixing the build issues in Visual Studio
+2013
+
+#### Hello World
 The obligatory *'hello world'* looks something like this:
 
 ```C++
