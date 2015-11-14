@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.0)
 set(LIB_NAME GDICanvas)
 project(${LIB_NAME} CXX)
 
-set(CMAKE_CXX_COMPILER gcc)
+set(CMAKE_CXX_COMPILER g++)
 set(CMAKE_MAKE_PROGRAM mingw32-make)
 
 # File locations
@@ -67,9 +67,12 @@ set(H_FILES
 
 # add_subdirectory(examples)
 
-# add_library (core OBJECT ${CXX_FILES})
-# add_library(${LIBRARY_NAME} STATIC ${CXX_FILES} ${INCLUDE_FILES})
 add_library(${LIB_NAME} STATIC ${CXX_FILES} ${INCLUDE_FILES})
 set_target_properties(${LIB_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
+# Copy the include files to the build folder
 file(COPY ${INCLUDE_FILES} DESTINATION ${BUILD_DIR}/include)
+
+add_executable(demo WIN32 demo.cxx)
+target_link_libraries(demo ${LIB_NAME})
+target_include_directories(demo PUBLIC build/include)
