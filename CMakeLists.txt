@@ -9,11 +9,10 @@ set(CMAKE_MAKE_PROGRAM mingw32-make)
 # File locations
 set(SRC_DIR src)
 set(INC_DIR include)
-set(BIN_DIR ../../build)
+set(BUILD_DIR ../../build)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${BIN_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${BIN_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BIN_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${BUILD_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${BUILD_DIR}/lib)
 
 # Flags for MinGW
 IF(CMAKE_COMPILER_IS_GNUCXX)
@@ -73,5 +72,4 @@ set(H_FILES
 add_library(${LIB_NAME} STATIC ${CXX_FILES} ${INCLUDE_FILES})
 set_target_properties(${LIB_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
-# add_executable(${EXECUTABLE_NAME} test.cxx)
-# target_link_libraries(${TEST} ${add_LIBS})
+file(COPY ${INCLUDE_FILES} DESTINATION ${BUILD_DIR}/include)
