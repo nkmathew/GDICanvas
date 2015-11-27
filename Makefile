@@ -89,10 +89,11 @@ clean:
 .PHONY : clean
 
 check:
-	@cppcheck %* --enable=all\
+	@cppcheck --enable=all\
 		--inline-suppr\
 		--suppress=missingIncludeSystem\
 		--suppress=uninitMemberVar\
+		--suppress=unusedFunction:src/Canvas.cxx\
 		src/*.cxx\
 		examples/*.cxx
 .PHONY : check
