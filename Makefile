@@ -88,6 +88,15 @@ clean:
 	cd build/cmake && ls | grep -v .gitignore | xargs rm -rf
 .PHONY : clean
 
+check:
+	@cppcheck %* --enable=all\
+		--inline-suppr\
+		--suppress=missingIncludeSystem\
+		--suppress=uninitMemberVar\
+		src/*.cxx\
+		examples/*.cxx
+.PHONY : check
+
 help:
 	@echo -e "The following are some of the valid targets for this Makefile: \n"
 	@echo "   ... all (the default if no target is provided)"
@@ -97,4 +106,5 @@ help:
 	@echo "   ... test"
 	@echo "   ... lib"
 	@echo "   ... demos"
+	@echo "   ... check"
 .PHONY : help
