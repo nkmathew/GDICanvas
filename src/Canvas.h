@@ -124,8 +124,8 @@ struct Event {
   std::string shapeTag = "";
   std::shared_ptr<EventHandler> handler = std::shared_ptr<EventHandler>(nullptr);
   EventType eventType = INVALID_EVENT;
-  Event(EventHandler *functor, EventType type) {
-    handler = std::shared_ptr<EventHandler>(functor);
+  Event(EventHandler *functor, EventType type) :
+      handler(std::shared_ptr<EventHandler>(functor)) {
     eventType = type;
   }
 };
