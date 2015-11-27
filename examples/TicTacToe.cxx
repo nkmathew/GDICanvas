@@ -10,7 +10,6 @@ int winningCombos[8][3] = {
 
 // Provides the logic
 struct TicTacToe {
-  bool gameWon = false;
   char board[9] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
   explicit TicTacToe(const char *board_) {
     for (unsigned i = 0; (i < std::strlen(board_)) && (i < 9); i++) {
@@ -117,7 +116,6 @@ struct TicTacToe {
         char nums[10];
         snprintf(nums, 10, "%d%d%d", w1, w2, w3);
         threeSquares = nums;
-        gameWon = side;
       }
     }
     return threeSquares;
@@ -292,7 +290,7 @@ struct GUI {
     show();
   }
 
-  void declareWin(char winner, const std::string combo) {
+  void declareWin(char winner, const std::string& combo) {
     disabled = false;
     char text[10];
     snprintf(text, 10, "%c Wins", winner);
