@@ -84,6 +84,7 @@ Vec2D::operator POINT() {
   return {static_cast<long>(x), static_cast<long>(y)};
 }
 
+// cppcheck-suppress unusedFunction
 Vec2D Vec2D::rotate(float angle) {
   angle = toRadians(angle);
   float newX, newY;

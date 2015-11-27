@@ -10,6 +10,7 @@ int winningCombos[8][3] = {
 
 // Provides the logic
 struct TicTacToe {
+  // cppcheck-suppress unusedStructMember
   char board[9] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
   explicit TicTacToe(const char *board_) {
     for (unsigned i = 0; (i < std::strlen(board_)) && (i < 9); i++) {
@@ -25,6 +26,7 @@ struct TicTacToe {
     return board[square] == ' ';
   }
 
+  // cppcheck-suppress unusedFunction
   std::string repr() {
     char currState[100];
     snprintf(
