@@ -6,5 +6,5 @@ cppcheck %* --enable=all^
     --inline-suppr^
     --suppress=missingIncludeSystem^
     --suppress=uninitMemberVar^
-    src\*.cxx
+    src\*.cxx^
     examples\*.cxx
