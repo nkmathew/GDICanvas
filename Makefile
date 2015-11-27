@@ -89,7 +89,7 @@ clean:
 .PHONY : clean
 
 check:
-	@cppcheck --enable=all\
+	@cppcheck --quiet --enable=all\
 		--inline-suppr\
 		--suppress=missingIncludeSystem\
 		--suppress=uninitMemberVar\
