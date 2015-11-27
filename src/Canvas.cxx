@@ -641,7 +641,9 @@ GS::Box Canvas::BBox(int shapeID) {
 bool Canvas::showConsole() {
   bool retVal = AllocConsole();
   AttachConsole(GetCurrentProcessId());
+  // cppcheck-suppress leakReturnValNotUsed
   freopen("CONOUT$", "wb", stdout);
+  // cppcheck-suppress leakReturnValNotUsed
   freopen("CONOUT$", "wb", stderr);
   return retVal;
 }
