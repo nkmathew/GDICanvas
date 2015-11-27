@@ -26,6 +26,7 @@ struct Vec2D {
   Vec2D(float x_, float y_);
   Vec2D(int x_, int y_);
   Vec2D();
+  // cppcheck-suppress noExplicitConstructor
   Vec2D(const POINT &points);
 
   //! String representation of the coordinates e.g `"(125.25, 35.23)"`
