@@ -12,7 +12,7 @@ int winningCombos[8][3] = {
 struct TicTacToe {
   bool gameWon = false;
   char board[9] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
-  TicTacToe(const char *board_) {
+  explicit TicTacToe(const char *board_) {
     for (unsigned i = 0; (i < std::strlen(board_)) && (i < 9); i++) {
       board[i] = board_[i];
     }
@@ -147,7 +147,7 @@ struct Player {
   char side;
   char opponent;
   std::vector<int> positions = {8, 0, 2, 6, 4, 1, 3, 5, 7};
-  Player(char side_) {
+  explicit Player(char side_) {
     side = side_;
     opponent = (side == 'X') ? 'O' : 'X';
     shuffle();
@@ -198,13 +198,13 @@ struct GUI;
 struct Button : GC::EventHandler {
   GUI *gui;
   int number;
-  Button(GUI *gui, int number) : gui(gui), number(number) {}
+  explicit Button(GUI *gui, int number) : gui(gui), number(number) {}
   virtual void handle(GC::Mouse) override;
 };
 
 struct StartButton : GC::EventHandler {
   GUI *gui;
-  StartButton(GUI *gui) : gui(gui) {}
+  explicit StartButton(GUI *gui) : gui(gui) {}
   virtual void handle(GC::Mouse) override;
 };
 
@@ -222,7 +222,7 @@ struct GUI {
   int startButton = -1;
   int msgLabel = -1;
   int buttonLabel = -1;
-  GUI(GC::Canvas *canv_, POINT start_ = {100, 50}) {
+  explicit GUI(GC::Canvas *canv_, POINT start_ = {100, 50}) {
     origin = {start_.x, start_.y + 50};
     canv = canv_;
     msgPos = {origin.x, origin.y + (squareLength * 3 + 10)};
@@ -402,7 +402,7 @@ void Button::handle(GC::Mouse) {
 
 struct Exit : GC::EventHandler {
   GC::Canvas *canv;
-  Exit(GC::Canvas *canv) : canv(canv) {}
+  explicit Exit(GC::Canvas *canv) : canv(canv) {}
   virtual void handle(GCanvas::Mouse) override {
     canv->kill();
   }

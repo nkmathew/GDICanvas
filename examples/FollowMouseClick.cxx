@@ -3,7 +3,7 @@
 struct Handler : GC::EventHandler {
   POINT lastPosition = { -100, -100};
   GC::Canvas *canv;
-  Handler(GC::Canvas *canv) : canv(canv) {}
+  explicit Handler(GC::Canvas *canv) : canv(canv) {}
 
   virtual void handle(GC::Mouse mouse) override {
     int x = mouse.x();
@@ -26,5 +26,3 @@ int main() {
   canv.bind("<Mouse-1>", Handler(&canv));
   return canv.loop();
 }
-
-

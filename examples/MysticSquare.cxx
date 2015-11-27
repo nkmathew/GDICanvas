@@ -10,7 +10,7 @@
 
 struct Exit : GC::EventHandler {
   GC::Canvas *canv;
-  Exit(GC::Canvas *canv) : canv(canv) {}
+  explicit Exit(GC::Canvas *canv) : canv(canv) {}
   virtual void handle(GCanvas::Mouse) override {
     canv->kill();
   }
@@ -19,7 +19,7 @@ struct Exit : GC::EventHandler {
 struct GUI;
 struct Scrambler : GC::EventHandler {
   GUI *gui;
-  Scrambler(GUI *gui) : gui(gui) {}
+  explicit Scrambler(GUI *gui) : gui(gui) {}
   virtual void handle(GC::Mouse) override;
 };
 
