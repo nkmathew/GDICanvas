@@ -429,7 +429,7 @@ struct Poly : Shape {
                              const Vec::Vec2D &bottomRight) override;
 
   virtual void changeCoords(const std::vector<POINT> &coords) override;
-  Poly(const std::vector<POINT> &points) : Shape(POLYGON) {
+  explicit Poly(const std::vector<POINT> &points) : Shape(POLYGON) {
     addTag("polygon");
     polyCoords = points;
   }
@@ -587,7 +587,7 @@ struct Line : Shape {
                    float y);
 
   virtual void changeCoords(const std::vector<POINT> &coords) override;
-  Line(const std::vector<POINT> &points) : Shape(LINE) {
+  explicit Line(const std::vector<POINT> &points) : Shape(LINE) {
     addTag("line");
     lineCoords = points;
   }
@@ -746,6 +746,7 @@ struct Box {
     y2 = y2_;
   }
 
+  // cppcheck-suppress noExplicitConstructor
   Box(RECT rect) {
     // For conversions from WinAPI's RECT struct
     x1 = rect.left;
